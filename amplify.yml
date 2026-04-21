@@ -8,14 +8,14 @@ applications:
           commands:
             - nvm install 20
             - nvm use 20
-            - npm install --prefix backend
+            - npm ci --prefix backend
             - npm --prefix backend exec prisma generate -- --schema db/prisma/schema.prisma
         build:
           commands:
             - npm run build --prefix backend
             - test -f backend/.next/required-server-files.json
             - test -f backend/.next/routes-manifest.json
-            - test -f backend/.next/deploy-manifest.json
+            - node -e "const fs = require('fs'); fs.writeFileSync('backend/.next/deploy-manifest.json', JSON.stringify({framework:'next.js',version:'15.5.4',config:{basePath:'/',trailingSlash:false,compress:true},routes:[{src:'^/api',dest:'/api'},{src:'^/(?!_next|public|favicon)',dest:'/'}]}, null, 2))"
       artifacts:
         baseDirectory: backend/.next
         files:

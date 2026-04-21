@@ -1,6 +1,5 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { withAmplifyAdapter } from "@aws-amplify/adapter-nextjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -16,4 +15,4 @@ const nextConfig = {
     }
 };
 
-export default withAmplifyAdapter(nextConfig);
+export default nextConfig;
