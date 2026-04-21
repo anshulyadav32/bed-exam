@@ -2,21 +2,24 @@ version: 1
 applications:
   - appRoot: backend
     frontend:
+      buildPath: /
       phases:
         preBuild:
           commands:
-            - nvm install 22
-            - nvm use 22
-            - npm ci
-            - npx prisma generate --schema ../db/prisma/schema.prisma
+            - nvm install 20
+            - nvm use 20
+            - npm ci --prefix backend
+            - npx prisma generate --schema db/prisma/schema.prisma
         build:
           commands:
-            - npm run build
+            - npm run build --prefix backend
+            - test -f backend/.next/required-server-files.json
+            - test -f backend/.next/routes-manifest.json
       artifacts:
-        baseDirectory: .next
+        baseDirectory: backend/.next
         files:
           - "**/*"
       cache:
         paths:
-          - node_modules/**/*
-          - .next/cache/**/*
+          - backend/node_modules/**/*
+          - backend/.next/cache/**/*
