@@ -15,7 +15,6 @@ applications:
             - npm run build --prefix backend
             - test -f backend/.next/required-server-files.json
             - test -f backend/.next/routes-manifest.json
-            - node -e "const fs = require('fs'); fs.writeFileSync('backend/.next/deploy-manifest.json', JSON.stringify({framework:'next.js',version:'15.5.4',config:{basePath:'/',trailingSlash:false,compress:true},routes:[{src:'^/api',dest:'/api'},{src:'^/(?!_next|public|favicon)',dest:'/'}]}, null, 2))"
       artifacts:
         baseDirectory: backend/.next
         files:
