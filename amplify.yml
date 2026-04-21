@@ -8,7 +8,7 @@ applications:
           commands:
             - nvm install 20
             - nvm use 20
-            - npm ci --prefix backend
+            - npm install --prefix backend
             - npm --prefix backend exec prisma generate -- --schema db/prisma/schema.prisma
         build:
           commands:
