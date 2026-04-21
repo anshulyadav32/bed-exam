@@ -15,7 +15,7 @@ applications:
             - npm run build --prefix backend
             - test -f backend/.next/required-server-files.json
             - test -f backend/.next/routes-manifest.json
-            - echo '{}' > backend/.next/deploy-manifest.json
+            - test -f backend/.next/deploy-manifest.json
       artifacts:
         baseDirectory: backend/.next
         files:
