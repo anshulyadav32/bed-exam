@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node --import ../env/load-env.mjs ./node_modules/next/dist/bin/next dev -p 4000",
-    "build": "node --import ../env/load-env.mjs ./node_modules/next/dist/bin/next build",
+    "build": "next build",
     "start": "node --import ../env/load-env.mjs ./node_modules/next/dist/bin/next start -p 4000",
     "migrate": "node ./scripts/migrate.mjs",
     "lint": "next lint"
