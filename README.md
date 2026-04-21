@@ -20,7 +20,12 @@ psql -U postgres -c "CREATE DATABASE bed_exam;"
 
 ## 3) Configure environment
 
-Copy `.env.example` to `.env` and update credentials if needed:
+Keep runtime env files only in `env/`:
+- `env/.env.development` for local development
+- `env/.env.production` for production-style local runs
+- `env/.env.example` as the template
+
+Example values:
 
 ```env
 API_PORT=4000
@@ -29,7 +34,10 @@ PGPORT=5432
 PGUSER=postgres
 PGPASSWORD=postgres
 PGDATABASE=bed_exam
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/bed_exam
 ```
+
+Backend scripts are configured to load env values from `env/` only.
 
 ## 4) Install dependencies
 
@@ -58,7 +66,7 @@ npm run dev
 Open the Vite URL shown in terminal (usually http://localhost:5173).
 
 ## Migration system
-- Prisma schema lives in `backend/prisma/schema.prisma`.
+- Prisma schema lives in `db/prisma/schema.prisma`.
 - `npm run migrate` runs `prisma db push` against the Next.js backend schema.
 - API startup also performs migration/seed checks via `backend/lib/startup.js`.
 
