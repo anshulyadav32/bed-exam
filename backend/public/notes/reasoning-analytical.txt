@@ -1,0 +1,37 @@
+Reasoning Notes: Analytical Reasoning
+=======================================
+
+SYLLOGISM
+- All A are B; All B are C → All A are C (valid)
+- Some A are B; All B are C → Some A are C (valid)
+- Use Venn diagrams to verify conclusions
+- Check both "definitely true" and "possibly true" scenarios
+
+STATEMENT & CONCLUSION / ASSUMPTION
+- Conclusion must follow directly from the statement
+- Assumption is an unstated premise that must be true for argument to hold
+- Watch for strong vs weak arguments
+
+CAUSE AND EFFECT
+- Identify if two events are related or coincidental
+- Common cause: both events may share a root cause
+- Cause leads to effect, not the other way
+
+PUZZLE-BASED QUESTIONS
+- Seating arrangement: linear (row) vs circular
+- For circular: fix one person as reference point
+- Floor-based puzzles: note "above" and "below" carefully
+- Comparison puzzles: make a ranking list
+
+DATA SUFFICIENCY
+- Check each statement alone, then together
+- Don't solve the problem, just check if it CAN be solved
+
+INPUT-OUTPUT
+- Find the rule for transformation step by step
+- Track pattern across 2-3 steps before applying
+
+EXAM TIPS
+- Syllogism is high scoring — practice daily
+- Seating arrangements: 5-8 marks in most exams
+- Read statements carefully; don't add assumptions

@@ -1,0 +1,145 @@
+# B.Ed Exam Hub (React + Next.js + PostgreSQL)
+
+This app uses a Vite frontend and a Next.js backend (API routes) with PostgreSQL for data.
+
+## Project structure
+- Frontend source: `frontend/`
+- Backend source: `backend/` (Next.js API routes under `backend/app/api`)
+- Frontend build output: `dist/`
+
+## 1) Install PostgreSQL + psql
+- Install PostgreSQL from the official installer for Windows.
+- Ensure **Command Line Tools** are selected during setup.
+- Add PostgreSQL `bin` folder to your PATH if `psql` is not found.
+
+## 2) Create database with psql
+
+```powershell
+psql -U postgres -c "CREATE DATABASE bed_exam;"
+```
+
+## 3) Configure environment
+
+Copy `.env.example` to `.env` and update credentials if needed:
+
+```env
+API_PORT=4000
+PGHOST=localhost
+PGPORT=5432
+PGUSER=postgres
+PGPASSWORD=postgres
+PGDATABASE=bed_exam
+```
+
+## 4) Install dependencies
+
+```powershell
+npm install
+```
+
+## 5) Run migrations
+
+```powershell
+npm run migrate
+```
+
+## 6) Run backend and frontend
+
+Terminal 1:
+```powershell
+npm run dev:api
+```
+
+Terminal 2:
+```powershell
+npm run dev
+```
+
+Open the Vite URL shown in terminal (usually http://localhost:5173).
+
+## Migration system
+- Prisma schema lives in `backend/prisma/schema.prisma`.
+- `npm run migrate` runs `prisma db push` against the Next.js backend schema.
+- API startup also performs migration/seed checks via `backend/lib/startup.js`.
+
+## API endpoints (served by Next.js)
+- `GET /api/health`
+- `GET /api/scores`
+- `POST /api/scores`
+
+## Docker (One Command)
+
+If you prefer not to install `psql` locally, run the full stack with Docker:
+
+```powershell
+docker compose up --build
+```
+
+This starts:
+- Web app on http://localhost:5173
+- Next.js app (UI + API) on http://localhost:3000
+- PostgreSQL on port 5433
+
+Prisma schema sync/seed runs from the Next.js app startup flow.
+
+To stop:
+
+```powershell
+docker compose down
+```
+
+To stop and remove database volume too:
+
+```powershell
+docker compose down -v
+```
+
+## AWS Deployment
+
+Recommended AWS target for this app:
+- Amazon RDS for PostgreSQL
+- AWS Amplify Hosting for Next.js app hosting
+
+Why this path:
+- Next.js pages and API routes (`/api/*`) run in one managed service.
+- CI/CD is built in with automatic deploys from your Git branch.
+- PostgreSQL stays external in RDS, which fits production better than containerized DB.
+
+### 1) Provision PostgreSQL (RDS)
+
+Create an RDS PostgreSQL instance and note the connection string.
+
+### 2) Push code to Git provider
+
+Push this repository to GitHub, GitLab, Bitbucket, or CodeCommit.
+
+### 3) Create Amplify app
+
+In AWS Amplify Hosting:
+- Connect your repo and select the branch.
+- Keep the repository root as this project root.
+- Amplify will use `amplify.yml` from the repo root (already configured for `backend/`).
+
+### 4) Configure environment variables in Amplify
+
+Set these variables in Amplify branch settings:
+- `DATABASE_URL` = your PostgreSQL connection string
+- `NODE_ENV` = production
+
+Optional (if needed):
+- `NEXT_TELEMETRY_DISABLED` = 1
+
+### 5) Deploy
+
+Trigger deploy from Amplify console, or push to the connected branch.
+
+Amplify will:
+- install dependencies in `backend/`
+- build Next.js
+- deploy pages and API routes
+
+### 6) Verify
+
+After deploy, test:
+- `/api/health`
+- `/api/scores`

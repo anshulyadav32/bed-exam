@@ -1,0 +1,22 @@
+version: 1
+applications:
+  - appRoot: backend
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - nvm install 22
+            - nvm use 22
+            - npm ci
+            - npx prisma generate --schema ../db/prisma/schema.prisma
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*

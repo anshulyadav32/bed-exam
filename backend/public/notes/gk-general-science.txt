@@ -1,0 +1,36 @@
+GK Notes: General Science
+==========================
+
+PHYSICS BASICS
+- Newton's Laws of Motion
+- Law of Gravitation: F = GMm/r²
+- Work, Energy, Power definitions
+- Sound: speed, reflection, applications
+- Light: reflection, refraction, lenses
+- Electricity: Ohm's Law, series vs parallel circuits
+
+CHEMISTRY BASICS
+- Periodic Table: periods, groups, trends
+- Types of reactions: combination, decomposition, displacement, redox
+- Acids and bases: pH scale, indicators
+- Common elements and their symbols
+- Alloys: steel, bronze, brass, stainless steel
+
+BIOLOGY BASICS
+- Human body systems: digestive, circulatory, respiratory, nervous
+- Cell: plant vs animal cell differences
+- Photosynthesis: 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂
+- Diseases: causes (bacterial, viral, fungal, protozoan) and prevention
+- Vitamins and their deficiency diseases
+
+EVERYDAY SCIENCE
+- How vaccines work
+- Why sky is blue (Rayleigh scattering)
+- How a refrigerator works
+- Common chemicals in daily life (NaCl, NaOH, H₂SO₄)
+- Environmental issues: ozone depletion, acid rain, greenhouse effect
+
+EXAM TIPS
+- Memorise deficiency diseases (vitamin → disease pairs)
+- Know SI units for common quantities
+- Scientific names of common animals/plants

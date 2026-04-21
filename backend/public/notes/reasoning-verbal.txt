@@ -1,0 +1,37 @@
+Reasoning Notes: Verbal Reasoning
+===================================
+
+ANALOGY
+- Find the relationship between two words, apply to another pair
+- Types: synonym, antonym, part-whole, cause-effect, tool-use
+- Example: Doctor : Hospital :: Teacher : School
+
+CLASSIFICATION (ODD ONE OUT)
+- Identify which item does not belong to the group
+- Look for: category, function, shape, letter pattern
+
+NUMBER / LETTER SERIES
+- Arithmetic series: constant difference (e.g., 2, 5, 8, 11...)
+- Geometric series: constant ratio (e.g., 2, 6, 18, 54...)
+- Mixed series: alternating rules
+- Missing letter series: A, C, F, J, O, ?
+
+CODING-DECODING
+- Letter shifting: A=1, B=2... or reverse Z=1, Y=2...
+- Position coding: word reversed, letters shifted by fixed number
+- Substitution coding: each word replaced by another code word
+
+BLOOD RELATIONS
+- Draw family trees to avoid confusion
+- Key relations: maternal uncle, paternal aunt, etc.
+- Coded relations: "A $ B" means A is sister of B
+
+DIRECTION & DISTANCE
+- Always start from North as reference
+- Keep track of left/right turns
+- Use Pythagoras theorem for diagonal distance
+
+EXAM TIPS
+- Practice at least 50 analogies before exam
+- For series, check differences first, then ratios
+- Draw diagrams for blood relations and directions

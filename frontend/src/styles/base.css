@@ -1,0 +1,111 @@
+:root {
+    --ink: #1d2228;
+    --muted: #59606a;
+    --accent: #0b6e4f;
+    --card: #ffffff;
+    --max: 1080px;
+    --radius: 18px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Space Grotesk", "Segoe UI", sans-serif;
+    background:
+        radial-gradient(1000px 550px at 10% -5%, #e6f7df, transparent 60%),
+        radial-gradient(800px 520px at 100% 0%, #ffe8bc, transparent 60%),
+        linear-gradient(145deg, #f5f1ea 0%, #fff9ef 48%, #f6efe2 100%);
+    line-height: 1.5;
+}
+
+h1,
+.section-title,
+h3,
+h4 {
+    font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+}
+
+h1 {
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+    line-height: 1.05;
+    margin: 0 0 0.8rem;
+}
+
+section {
+    padding: 1.2rem 0;
+}
+
+.section-title {
+    margin: 0 0 0.8rem;
+    font-size: clamp(1.4rem, 2.8vw, 2rem);
+}
+
+.btn,
+.btn-alt,
+.download-link {
+    border-radius: 999px;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+}
+
+.btn {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.65rem 1.1rem;
+}
+
+.btn-alt {
+    background: #1d2228;
+    color: #fff;
+    padding: 0.65rem 1.1rem;
+}
+
+.blob {
+    position: fixed;
+    z-index: -1;
+    border-radius: 45% 55% 65% 35% / 42% 38% 62% 58%;
+    opacity: 0.25;
+}
+
+.blob.one {
+    width: 280px;
+    height: 280px;
+    top: 58px;
+    right: -50px;
+    background: #b8e3cf;
+}
+
+.blob.two {
+    width: 340px;
+    height: 340px;
+    bottom: 90px;
+    left: -90px;
+    background: #ffd89f;
+}
+
+.hero p,
+.content-box p,
+.intro-text,
+.feature-card p,
+.syllabus-card li,
+.syllabus-detail-card li,
+.test-meta,
+.pattern-card li,
+.contact-card p,
+.policy-block p,
+.links-ul a,
+.exams-ul li,
+.date-value,
+.contact-info p {
+    color: var(--muted);
+}

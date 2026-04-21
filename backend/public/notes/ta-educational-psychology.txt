@@ -1,0 +1,35 @@
+Teaching Aptitude Notes: Educational Psychology
+================================================
+
+CHILD DEVELOPMENT
+- Jean Piaget's Stages:
+  * Sensorimotor (0-2 yrs): object permanence
+  * Pre-operational (2-7 yrs): egocentric, symbolic play
+  * Concrete operational (7-11 yrs): conservation, logical thinking
+  * Formal operational (11+ yrs): abstract reasoning
+- Vygotsky: Zone of Proximal Development (ZPD), scaffolding
+- Erikson's 8 stages of psychosocial development
+
+MOTIVATION
+- Intrinsic motivation: driven by internal interest/enjoyment
+- Extrinsic motivation: driven by external rewards/punishments
+- Maslow's Hierarchy: Physiological → Safety → Love → Esteem → Self-Actualization
+- Achievement Motivation: McClelland's theory (need for achievement)
+
+LEARNING THEORIES
+- Classical Conditioning (Pavlov): stimulus-response
+- Operant Conditioning (Skinner): reinforcement (positive/negative), punishment
+- Social Learning (Bandura): observational learning, self-efficacy
+- Gestalt Theory: whole > sum of parts, insight learning
+- Cognitive theories: schema, assimilation, accommodation
+
+INDIVIDUAL DIFFERENCES
+- Intelligence: Spearman's 'g' factor, Gardner's Multiple Intelligences (8 types)
+- Learning styles: visual, auditory, kinesthetic (VAK model)
+- Special needs: gifted, slow learners, learning disabilities (dyslexia, dyscalculia)
+- Inclusive education principles
+
+EXAM TIPS
+- Piaget's stages with age groups are very frequently tested
+- Know reinforcement types clearly
+- Gardner's 8 intelligences: Linguistic, Logical-Mathematical, Spatial, Musical, Bodily-Kinesthetic, Interpersonal, Intrapersonal, Naturalist

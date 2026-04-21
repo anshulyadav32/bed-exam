@@ -1,0 +1,40 @@
+Reasoning Notes: Non-Verbal Reasoning
+=======================================
+
+PATTERN RECOGNITION
+- Identify the rule (rotation, reflection, addition, removal of elements)
+- Look at rows AND columns in a matrix
+- Changes can be: size, shading, number of sides, orientation
+
+MIRROR IMAGE
+- Vertical mirror: image is flipped horizontally (left ↔ right)
+- Horizontal mirror: image is flipped vertically (top ↔ bottom)
+- For clocks: add or subtract from 12 (mirror time = 11:60 – original time)
+
+WATER IMAGE
+- Image is flipped vertically (top ↔ bottom)
+- Left-right stays the same
+
+PAPER FOLDING & CUTTING
+- Visualise the fold in reverse when unfolding
+- Symmetric holes: a fold + cut gives holes on both halves
+- Count total holes after full unfolding
+
+FIGURE COMPLETION / EMBEDDED FIGURES
+- Complete the figure using the given options
+- Look for symmetry and proportion
+- In embedded figures, rotate the small figure mentally
+
+COUNTING FIGURES
+- Triangles in a big triangle: use formula n(n+2)(2n+1)/8
+- Squares in a grid: 1×1 + 2×2 + 3×3... (sum of squares formula)
+- Rectangles: nC₂ × nC₂ for an n×n grid
+
+SERIES OF FIGURES
+- Track changes from one figure to the next
+- Changes: rotation (45°, 90°, 180°), addition/removal of elements, shading swap
+
+EXAM TIPS
+- Practice mirror images of alphabets: A, H, I, M, O, T, U, V, W, X, Y are symmetric
+- Paper folding: always unfold mentally step by step
+- 30% of non-verbal questions involve rotation — master 90° and 180° turns

@@ -1,0 +1,35 @@
+Language Notes: Grammar
+========================
+
+PARTS OF SPEECH
+- Noun: name of person, place, thing, idea (types: proper, common, collective, abstract, material)
+- Pronoun: replaces noun (personal, reflexive, relative, interrogative, demonstrative)
+- Verb: action or state (transitive vs intransitive; main vs auxiliary)
+- Adjective: modifies noun (qualitative, quantitative, demonstrative, interrogative)
+- Adverb: modifies verb/adjective/adverb (manner, time, place, degree)
+- Preposition: shows relationship (in, on, at, by, with, of, for, since, until)
+- Conjunction: joins clauses (coordinating: FANBOYS; subordinating: because, although)
+- Interjection: expresses emotion (Oh! Wow! Alas!)
+
+TENSES (12 Tenses)
+- Simple: Present/Past/Future
+- Continuous: Present/Past/Future + (to be + V-ing)
+- Perfect: Present/Past/Future + (to have + V3)
+- Perfect Continuous: Present/Past/Future + (to have been + V-ing)
+
+SUBJECT-VERB AGREEMENT
+- Singular subject → singular verb; Plural subject → plural verb
+- Collective nouns (team, class): usually singular
+- "Either/Neither" with two subjects: verb agrees with nearer subject
+- "Along with / as well as / together with": verb agrees with first subject
+
+SENTENCE TRANSFORMATION
+- Active to Passive: Object + (to be + V3) + by + Subject
+- Direct to Indirect speech: change tense, pronouns, time expressions
+- Affirmative to Negative/Interrogative transformations
+- Simple to Complex/Compound: using subordinating/coordinating conjunctions
+
+EXAM TIPS
+- Active-passive and direct-indirect are highest scoring areas
+- Practice tense identification in paragraph correction
+- Subject-verb agreement errors appear in error detection questions
