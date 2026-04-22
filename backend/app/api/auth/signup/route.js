@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import { ensureStarted } from "../../../../lib/startup.js";
 import { prisma } from "../../../../lib/prisma.js";
-import { hashPassword, isValidEmail, sha256 } from "../../../../lib/auth.js";
-import crypto from "crypto";
-
-const SESSION_TTL_DAYS = 7;
+import { hashPassword, isValidEmail, validatePasswordStrength } from "../../../../lib/auth.js";
+import { createTokenPair } from "../../../../lib/session.js";
 
 export async function POST(request) {
     await ensureStarted();
@@ -17,9 +15,9 @@ export async function POST(request) {
     const username = String(body?.username || "").trim().toLowerCase();
     const password = String(body?.password || "");
 
-    if (!name || !username || !isValidEmail(email) || password.length < 6) {
+    if (!name || !username || !isValidEmail(email)) {
         return NextResponse.json(
-            { message: "Name, username, valid email, and password (min 6 chars) are required" },
+            { message: "Name, username, and a valid email are required" },
             { status: 400 }
         );
     }
@@ -29,6 +27,17 @@ export async function POST(request) {
             { status: 400 }
         );
     }
+    if (!/^[a-z0-9_]+$/.test(username)) {
+        return NextResponse.json(
+            { message: "Username may only contain lowercase letters, numbers, and underscores" },
+            { status: 400 }
+        );
+    }
+
+    const pwCheck = validatePasswordStrength(password);
+    if (!pwCheck.valid) {
+        return NextResponse.json({ message: pwCheck.message }, { status: 400 });
+    }
 
     try {
         const passwordHash = await hashPassword(password);
@@ -37,15 +46,11 @@ export async function POST(request) {
             select: { id: true, name: true, email: true, username: true }
         });
 
-        const token = crypto.randomBytes(32).toString("hex");
-        const tokenHash = sha256(token);
-        const expiresAt = new Date(Date.now() + SESSION_TTL_DAYS * 24 * 60 * 60 * 1000);
-
-        await prisma.userSession.create({
-            data: { userId: user.id, tokenHash, expiresAt }
+        const { accessToken, refreshToken } = await createTokenPair(user.id, {
+            name: user.name, email: user.email, username: user.username
         });
 
-        return NextResponse.json({ token, user }, { status: 201 });
+        return NextResponse.json({ accessToken, refreshToken, user }, { status: 201 });
     } catch (error) {
         if (String(error.message).includes("Unique constraint failed")) {
             if (String(error.message).includes("email")) {

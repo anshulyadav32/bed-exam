@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma.js";
 import { getUserFromRequest } from "../../../../lib/session.js";
-import { hashPassword, isValidEmail, verifyPassword } from "../../../../lib/auth.js";
+import { hashPassword, isValidEmail, verifyPassword, validatePasswordStrength } from "../../../../lib/auth.js";
 
 export async function PATCH(request) {
     let body;
@@ -19,8 +19,8 @@ export async function PATCH(request) {
     if (username.length < 3 || username.length > 20) {
         return NextResponse.json({ message: "Username must be 3-20 characters" }, { status: 400 });
     }
-    if ((currentPassword || newPassword) && newPassword.length < 6) {
-        return NextResponse.json({ message: "New password must be at least 6 characters" }, { status: 400 });
+    if ((currentPassword || newPassword) && !validatePasswordStrength(newPassword).valid) {
+        return NextResponse.json({ message: validatePasswordStrength(newPassword).message }, { status: 400 });
     }
 
     try {

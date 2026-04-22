@@ -1,13 +1,31 @@
 import { NextResponse } from "next/server";
 import { ensureStarted } from "../../../../lib/startup.js";
 import { prisma } from "../../../../lib/prisma.js";
-import { verifyPassword, isValidEmail, sha256 } from "../../../../lib/auth.js";
-import crypto from "crypto";
+import { verifyPassword } from "../../../../lib/auth.js";
+import { createTokenPair } from "../../../../lib/session.js";
+import { checkRateLimit, recordFailedAttempt, clearAttempts } from "../../../../lib/rateLimit.js";
 
-const SESSION_TTL_DAYS = 7;
+function getClientIp(request) {
+    return (
+        request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+        request.headers.get("x-real-ip") ||
+        "unknown"
+    );
+}
 
 export async function POST(request) {
     await ensureStarted();
+
+    // ── Rate limiting ─────────────────────────────────────────
+    const ip = getClientIp(request);
+    const rateCheck = checkRateLimit(`login:${ip}`);
+    if (!rateCheck.allowed) {
+        const retryAfterSec = Math.ceil(rateCheck.retryAfterMs / 1000);
+        return NextResponse.json(
+            { message: `Too many login attempts. Try again in ${Math.ceil(retryAfterSec / 60)} minute(s).` },
+            { status: 429, headers: { "Retry-After": String(retryAfterSec) } }
+        );
+    }
 
     let body;
     try { body = await request.json(); } catch { body = {}; }
@@ -31,19 +49,20 @@ export async function POST(request) {
         });
 
         if (!user || !(await verifyPassword(password, user.passwordHash))) {
+            recordFailedAttempt(`login:${ip}`);
+            // Constant-time response to prevent user enumeration
             return NextResponse.json({ message: "Invalid email/username or password" }, { status: 401 });
         }
 
-        const token = crypto.randomBytes(32).toString("hex");
-        const tokenHash = sha256(token);
-        const expiresAt = new Date(Date.now() + SESSION_TTL_DAYS * 24 * 60 * 60 * 1000);
+        clearAttempts(`login:${ip}`);
 
-        await prisma.userSession.create({
-            data: { userId: user.id, tokenHash, expiresAt }
+        const { accessToken, refreshToken } = await createTokenPair(user.id, {
+            name: user.name, email: user.email, username: user.username
         });
 
         return NextResponse.json({
-            token,
+            accessToken,
+            refreshToken,
             user: { id: user.id, name: user.name, email: user.email, username: user.username }
         });
     } catch (error) {
