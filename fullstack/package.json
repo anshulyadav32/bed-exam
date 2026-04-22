@@ -1,0 +1,11 @@
+{
+    "name": "bed-exam-fullstack",
+    "private": true,
+    "scripts": {
+        "dev": "npm --prefix ../backend run dev",
+        "build": "npm --prefix ../backend run build",
+        "start": "npm --prefix ../backend run start",
+        "migrate": "npm --prefix ../backend run migrate",
+        "test": "npm test --prefix .."
+    }
+}
