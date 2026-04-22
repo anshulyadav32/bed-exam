@@ -25,7 +25,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/SGX1gXbyfPct1VRO6gsxntxROkB0TCwojnx5ZKSo720ZA2KI02k3rqt2bog9yuZDCgj6PmFz99WoVJQBTGXP_VRfGsAiSEu7sh4Yi_LGtFc7MrCWrW4FUQ6Pv-3R4Zvr9w7TZRFug9Uzu7UykJI2_UFKopCgJaoFY5tLRGUh1GksXYsfIMQEx6B8xkkxVrhR?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/MWZe5nnGy7SwQAh4iPL1HK0cSmWtRMcgjV-j1nzZ1ceQwffnYdjgTErmKYd2GkxqvvgYhFUt2dm2SeBEh1WUjd1CpxySUh3iRRPalJSSWqAQlKJ8cN5ZK0ak4BohUvJxpu59GcwKNBpbPdK2E06-Y1-XtDpLVxvXd5pkG8NVT8k7AQOb4_Kyarve3z7EISTU?purpose=fullsize"
                 ],
-                topics: ["Ancient History (Indus Valley, Vedic Period)", "Medieval History (Delhi Sultanate, Mughal Empire)", "Modern History (British Rule, Freedom Struggle)", "Important Personalities & Movements"]
+                topics: ["Ancient History (Indus Valley, Vedic Period)", "Medieval History (Delhi Sultanate, Mughal Empire)", "Modern History (British Rule, Freedom Struggle)", "Important Personalities & Movements"],
+                explanation: "From the ancient Indus Valley civilization to India's independence in 1947, this chapter traces 5,000 years of history. Key areas include Maurya and Gupta empires, medieval dynasties, the British colonial period, and the freedom struggle. Focus on important dates, personalities, and Gandhi's movements — they are consistently tested in B.Ed entrance exams."
             },
             {
                 heading: "Geography",
@@ -38,7 +39,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/NayPh8ea-hQPVcqcASfjm6yd92PvGbd4lBGzqOpNfz7mfevRfD8749vZO9XGdxSdYEwqXwM2ux0V2zfqcNdrQ9pScbsSaikfo6Zn4pU5hl2mCYzRZ5abbL3vhsfp2LRSs8eIxkCln4ZKmXI3InDDkSgOrbQlyoCE9JLVX8feti-0rYxWy5njjMgjx48U7ftl?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/w7yIlW7PckWojQOa9efFqPxhf2s2BM4fDZXvUvCEIfRc5vzMx7yOPKUTw8B_DHdVetU8t80mjXt0IcM6yJJ0iGRjgEG2W3sSACUK0wtUlIbcAKIc-S0zWrDjJNdMGqRU9XV3cwisfUFLXTD4nWOImUlqcFFNwP1wKu4uAW2-NOB8KpmNL3Iz-YUi5MofCz8d?purpose=fullsize"
                 ],
-                topics: ["Physical Geography (Mountains, Rivers, Climate)", "Indian Geography", "World Geography basics", "Natural Resources"]
+                topics: ["Physical Geography (Mountains, Rivers, Climate)", "Indian Geography", "World Geography basics", "Natural Resources"],
+                explanation: "This chapter covers physical and political geography — from India's river systems and mountain ranges to world continents and oceans. Indian physiographic divisions (Himalayan region, Northern Plains, Peninsular Plateau), major rivers, and states & capitals are critical areas. Practice map-based questions and know key wildlife sanctuaries and national parks."
             },
             {
                 heading: "Indian Polity",
@@ -50,7 +52,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/oQNY7mDJuNC4oEXLIQx_tozG4sOfgzomUaDNRFIFh0aGnDB-aWK9lSAYdDLar9ZVTlR13BmGK2NZ9elPbFYaqdlmnq2TMmmI0Ch2QhKzzU_bGtI5aG3KrRiWKY65Z4GMX3POLJrknjOwGAGBFJJddMSrEv_xVJlaT7zw8QDD2MgVaV2-bT0TjAHEkmUkcCgL?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/JyJWlQzraS1dCE0VpzqNmxmLI3G4XBjOM7_92yMJqp1vO3dmgpcyLwsnBddq6XnDesbWdLDhg_LVwN2OtjT9lHgP9VQKTVjmxiQ5KAIJz3G8XMOAGG-96iwmyrsr4TKNTsDMrRJvFevnJUapd065GARjdG7vUZDF1IzCLvHViqLeFEh-lfaJIpjV-dQ60kIg?purpose=fullsize"
                 ],
-                topics: ["Constitution of India", "Fundamental Rights & Duties", "Government Structure (Executive, Legislature, Judiciary)", "Panchayati Raj"]
+                topics: ["Constitution of India", "Fundamental Rights & Duties", "Government Structure (Executive, Legislature, Judiciary)", "Panchayati Raj"],
+                explanation: "India's Constitution — the longest written constitution in the world — is the core of this chapter. Study Fundamental Rights (Part III, Articles 12–35), the three-tier government structure (Executive, Legislature, Judiciary), and Panchayati Raj (73rd Amendment, 1992). Article numbers for Fundamental Rights, emergency provisions (352, 356, 360), and the five writs are frequently tested."
             },
             {
                 heading: "Current Affairs",
@@ -62,7 +65,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/PZuM5kqDsCxRkTxTtZefBMvoQo1Ei9b8wZHAu1w6Tcu3GPCCyx0pZ9ymgA11yJf0oGdBx6Km7ohkXhJC3n5NDaczXM2-s4iBCzRA48d1TeS57MzVCCf7bIiw0EnCiCLNZWKHO1skg9lXAq6GITojDrYJkqa2_d6TepO-Un5IQK3cff4jH9OcNAnhlvzzQqt8?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/AuHbR2ystq9wghSeWxOez1EpbcrmOVsoJ6SvIfMHaM8a0Hg-I72fK9vj2AfijMUF6yrcNx8QeQuvYQEsmy-DUlkHr23vfhuDwiScO4EoHD0t9Gr4fatvxOKMv9p6VjNlbo9M8cNRIuNbrPAwHv-TcjDgBDbLEnbH4qwIn_wXi4PRe5H8Ss7Dr3_TiNHqnDGp?purpose=fullsize"
                 ],
-                topics: ["National & International News", "Awards & Honors", "Sports Events", "Government Schemes"]
+                topics: ["National & International News", "Awards & Honors", "Sports Events", "Government Schemes"],
+                explanation: "This chapter keeps you updated on national and international developments. Key focus areas include government schemes (especially education-related like Samagra Shiksha, PM POSHAN), major awards (Bharat Ratna, Nobel prizes, Padma awards), sports events, and India's international rankings. Follow the last 6–12 months of current affairs for this section."
             },
             {
                 heading: "General Science",
@@ -75,7 +79,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/L8GI_m0A_a6wHupPPKbsNqSp9lRlBxEud4nsTJ2st6JaD-ughpaQ7IeyX1t_wC57Od3bkWPQAN2lnC6xXo_q7xCB2VsFUb_pk4YKE0gC8hCz1bxgyd31dWSscZ49qGBuA-NttNldExdZFEJapByDxaf4UC4zSRSR5HwnoPntUzvNVzSre0BaFimKc5cXTIZh?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/TN3Cms00TzVQ1o3B1ty1Y_6kael9-mZmPGC8GELXnUgtI5eYAB1LBEfM6lNP22OxnZ5Xa7EjIWmnWc-_9SsZKEd0y5kNUddyHNyFnaYJrVpI4KPUkEegtQpRxo4FUjFSx9bbdvkRfMXEEDcxcF-lIs-Fw4u33xSXyo0lrsY0ic0PDWHuoXXX6Rqt07DTPZsX?purpose=fullsize"
                 ],
-                topics: ["Physics basics (Motion, Energy)", "Chemistry basics (Elements, Reactions)", "Biology basics (Human Body, Plants)", "Everyday Science"]
+                topics: ["Physics basics (Motion, Energy)", "Chemistry basics (Elements, Reactions)", "Biology basics (Human Body, Plants)", "Everyday Science"],
+                explanation: "Covers basic physics (Newton's Laws, optics, electricity), chemistry (periodic table, reaction types, acids and bases), and biology (human body systems, photosynthesis, diseases). Everyday science like how vaccines work and environmental issues also appear. Memorise vitamin-deficiency disease pairs and SI units — these are reliable exam scoring areas."
             }
         ],
         tests: [
@@ -104,7 +109,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/H5gX0w5o0L-cc78nC81neLN9LiXgZ5hL2SN0_OpYK_GTVvg1flxBq4qjtx8IDxAkww5R4UqmBN4EvzrmfcnptH8uh7COdWqUK9WOPVpVNfPdvkq_RY-ZWA-ZHh2HRuX23qTLedjBWq6HWw9IqJzpCINBTOihdHhp7LUlIXsEXjnUasybNzYmPa2p3pua2q6L?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/9nPLahXPxKpBX6g7TBzdRRznaB88fSVCDmjec5UZ4c_Bnnlx-xWqXNIOUWNIOuvliDI1LuasvaCbT_CaPNDegBB1qNIU04E7Jb0hkRXXzqkN4cY1e9WQ4kWXgjmOP_FyrO58e55_fuPWXB1PbnD30dI2ou0gdlQftFwWJeOoxJW1-qg4-tnPxbdM7fVYajH_?purpose=fullsize"
                 ],
-                topics: ["Analogy", "Classification", "Series", "Coding-Decoding"]
+                topics: ["Analogy", "Classification", "Series", "Coding-Decoding"],
+                explanation: "Verbal reasoning tests your ability to find patterns and relationships in words and numbers. Analogies, classification (odd one out), series completion, and coding-decoding are the four core question types. For series: check differences first, then ratios. For analogies: identify the relationship type (synonym, part-whole, cause-effect) before matching."
             },
             {
                 heading: "Analytical Reasoning",
@@ -113,7 +119,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/3VCeybdTdl3l4BJ0wJkpR0iMMRax_PbzhXQYpcgEdjZvPib9wnUY52N65w1oXW2NO1hK8eau1BlnLBZxF42aZ-KpV8LVLLvRu-B4_bhOjwyqIk7okEOiZIHqAwHCdpRCdrgcLjSE4fwOihOR0UDF4AH8pZqfFflqiQiIPuca41t3G9MJxyaTkwxKm8xMc53U?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/q-n_zixM30PivBHNkoOyDM66nGHi7Fa_zqRua_bgym84CE-jJma6R_TbO_SSU00ctX_sb79VhHhaXA9qJotOwob3YvFhF4FsTXswxr2lOHiZCRolHwG-Xlqv9kIMEemMcPvy1TVUbXJKeGzevGJGZK6J4db6j4AqB-D8cFYa9VwtfF4BMVh0iefZZ4U2cr3N?purpose=fullsize"
                 ],
-                topics: ["Syllogism", "Statement & Conclusion", "Cause and Effect", "Puzzle-based questions"]
+                topics: ["Syllogism", "Statement & Conclusion", "Cause and Effect", "Puzzle-based questions"],
+                explanation: "Analytical reasoning focuses on logical deduction through syllogisms, statement-conclusion/assumption pairs, and spatial puzzles. Use Venn diagrams for syllogisms and draw ranking lists for comparison puzzles. Seating arrangements (linear and circular) typically carry 5–8 marks and are very scoring with regular practice."
             },
             {
                 heading: "Non-Verbal Reasoning",
@@ -122,7 +129,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/NayPh8ea-hQPVcqcASfjm6yd92PvGbd4lBGzqOpNfz7mfevRfD8749vZO9XGdxSdYEwqXwM2ux0V2zfqcNdrQ9pScbsSaikfo6Zn4pU5hl2mCYzRZ5abbL3vhsfp2LRSs8eIxkCln4ZKmXI3InDDkSgOrbQlyoCE9JLVX8feti-0rYxWy5njjMgjx48U7ftl?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/w7yIlW7PckWojQOa9efFqPxhf2s2BM4fDZXvUvCEIfRc5vzMx7yOPKUTw8B_DHdVetU8t80mjXt0IcM6yJJ0iGRjgEG2W3sSACUK0wtUlIbcAKIc-S0zWrDjJNdMGqRU9XV3cwisfUFLXTD4nWOImUlqcFFNwP1wKu4uAW2-NOB8KpmNL3Iz-YUi5MofCz8d?purpose=fullsize"
                 ],
-                topics: ["Pattern Recognition", "Mirror Image", "Paper Folding", "Figure Completion"]
+                topics: ["Pattern Recognition", "Mirror Image", "Paper Folding", "Figure Completion"],
+                explanation: "Non-verbal reasoning tests spatial thinking using figures and shapes. Mirror images, paper folding, figure completion, and pattern recognition are the key question types. Count lines and check symmetry carefully — these questions reward precise visual observation and eliminating options systematically rather than guessing."
             }
         ],
         tests: [
@@ -151,7 +159,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/J1SjoP1GRatGoA_PRAzL3tDVTNfJXXbHcg7hPHScCH_6-gMhOsxUNjzj-oVs3SBIKWeTDXtL-x9VNXNbmbW173nUW4S-SWaHUaP0KW5R_xGYSgEKWzMMUL0lbyR30nVJXo6BFcbbWqcf2CkqlYHkyCZMzYTWX8wmUAJ53E3arn24S0mdIPOrM8xeVgOu1xbY?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/zxG_5zN3bDNohyvmujSzPreUsYAIYJRbZoek0RGGH8gSCQ-cqCmBwBhmo7-bzYWuxC3iIVMBXhNWfErE5AzcoCk04sgd66rSoevH1pO7asqRYhYyHJQ4XsLwTQJCI26ogl_KyquZ0yTu9w0dZ-GlfzqhnVBwl0HVMeqC6CDpFRfi2Mj9wAzCPxV6MjsV_Vou?purpose=fullsize"
                 ],
-                topics: ["Teaching Methods", "Learning Process", "Lesson Planning", "Classroom Communication"]
+                topics: ["Teaching Methods", "Learning Process", "Lesson Planning", "Classroom Communication"],
+                explanation: "This chapter covers the core of effective teaching — methods (lecture, discussion, demonstration, project, problem-solving), the learning process including Bloom's revised taxonomy, lesson planning frameworks (Herbart's 5 steps: Preparation, Presentation, Association, Generalization, Application), and classroom communication styles. Bloom's taxonomy levels and Herbart's 5-step sequence are the most frequently tested items."
             },
             {
                 heading: "Educational Psychology",
@@ -160,7 +169,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/3lXFYTwvQ8579XSgUYMTJu6Qt9Un-L61EhujTacN7XLev0nzse_w09aEKpVzcQIKcNrHS8Wu4p9WUyIXQAT06xeA4EIg3LQiC_RlDTLDnm5iDECEQwo3rAYq5OjPs-pyySaXYfZn1pcZKLm9k5l2AaQ646Ob-CDI2Hbnpwi1Bjef1XTuOEgOhQp1204HA3IW?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/oQNY7mDJuNC4oEXLIQx_tozG4sOfgzomUaDNRFIFh0aGnDB-aWK9lSAYdDLar9ZVTlR13BmGK2NZ9elPbFYaqdlmnq2TMmmI0Ch2QhKzzU_bGtI5aG3KrRiWKY65Z4GMX3POLJrknjOwGAGBFJJddMSrEv_xVJlaT7zw8QDD2MgVaV2-bT0TjAHEkmUkcCgL?purpose=fullsize"
                 ],
-                topics: ["Child Development", "Motivation", "Learning Theories", "Individual Differences"]
+                topics: ["Child Development", "Motivation", "Learning Theories", "Individual Differences"],
+                explanation: "Understanding how children develop and learn is central to this chapter. Piaget's 4 developmental stages with age groups, Vygotsky's Zone of Proximal Development, and Erikson's 8 psychosocial stages describe child development. Learning theories (Pavlov, Skinner, Bandura, Gestalt) and Gardner's 8 Multiple Intelligences are all frequently tested areas in B.Ed entrance exams."
             },
             {
                 heading: "Classroom Management",
@@ -169,7 +179,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/JyJWlQzraS1dCE0VpzqNmxmLI3G4XBjOM7_92yMJqp1vO3dmgpcyLwsnBddq6XnDesbWdLDhg_LVwN2OtjT9lHgP9VQKTVjmxiQ5KAIJz3G8XMOAGG-96iwmyrsr4TKNTsDMrRJvFevnJUapd065GARjdG7vUZDF1IzCLvHViqLeFEh-lfaJIpjV-dQ60kIg?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/SGX1gXbyfPct1VRO6gsxntxROkB0TCwojnx5ZKSo720ZA2KI02k3rqt2bog9yuZDCgj6PmFz99WoVJQBTGXP_VRfGsAiSEu7sh4Yi_LGtFc7MrCWrW4FUQ6Pv-3R4Zvr9w7TZRFug9Uzu7UykJI2_UFKopCgJaoFY5tLRGUh1GksXYsfIMQEx6B8xkkxVrhR?purpose=fullsize"
                 ],
-                topics: ["Time Management", "Inclusive Practices", "Student Behavior", "Assessment Techniques"]
+                topics: ["Time Management", "Inclusive Practices", "Student Behavior", "Assessment Techniques"],
+                explanation: "Effective classroom management covers proactive time management, inclusive education principles (RTE Act 2009, Salamanca Statement, Universal Design for Learning), student behavior strategies (positive reinforcement, assertive discipline), and assessment techniques. The distinction between formative and summative assessment and the CCE evaluation pattern are high-priority exam topics."
             }
         ],
         tests: [
@@ -198,7 +209,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/ws8drbYScTmljThnuSlTzDGER82VZ37R7cd5lLOTHya5VzPb_xleA4ibAsUQnG57dW5mBmePcOunTU-D9hwXeuguRgIwakwcexqtOy57CjleLtNvZYKpw7uZhGLsfrQacIuNp5CXn9A44WNUc1gbawEZr-Gg5OaE45EkTbtZLOwlx5QDEZhzqc9J5Cxihehu?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/UXZvp0BassHzntyOU90rJ57hzR2UqDOFrSAD1-bUAoqOT59byKJOog82IgdcxdaIuO5_hjvKcLLIY5Xu9LbLTupG61dYxMqDjptcmVzGUX9onb5pW2avv-th4FYVc1817hvSFMaiw7jUos_oSHXRHMACzXNBbtIjUIDYyUXGjbLggfkONNYJi1F8cv8k6m3R?purpose=fullsize"
                 ],
-                topics: ["Parts of Speech", "Tenses", "Subject-Verb Agreement", "Sentence Transformation"]
+                topics: ["Parts of Speech", "Tenses", "Subject-Verb Agreement", "Sentence Transformation"],
+                explanation: "English grammar forms the foundation of the language section. The 8 parts of speech, 12 tenses, subject-verb agreement rules, and sentence transformation (active-passive, direct-indirect speech) are the core areas. Active-passive and direct-indirect speech conversions are the highest scoring areas — practice transformations daily before the exam."
             },
             {
                 heading: "Vocabulary",
@@ -207,7 +219,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/09OYl-8vtR4Xp3aXAHp8IuniOg65IS0ODKAotklh4K9p7Z7r4NG3OjRjOENOvuBvwmSnwIHWsGiR4C84zCBWsnN52bn1FBVQvN4ogRKb5YmfwSfxAqC2FfXD26M5Rp75NX9omnWzEpHqp2SM-gZytaoGNnpSA4etprWwE0ItOx1hHRWUhvgR25Y7SSI-nV9K?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/bZt60yFk2HlEQM4dEipMK6emT8KlV7EupFgVlTpi0mEkpjvFts8lltM5qulmuYK85zOaC7SmPLV3MOxyGpSQ3gA0xdSqgijAY7fKpEal8ipmK8ODI19Da9CgNoqsRZwIunBCw29gzBd3Jbvw9qisxgDY3mz4YRsaerqXcwpqRqJ5YZlhJ_-ukC07iQ7WeWYr?purpose=fullsize"
                 ],
-                topics: ["Synonyms & Antonyms", "One Word Substitution", "Idioms and Phrases", "Word Usage"]
+                topics: ["Synonyms & Antonyms", "One Word Substitution", "Idioms and Phrases", "Word Usage"],
+                explanation: "Vocabulary questions test your knowledge of word meanings, relationships, and usage in context. Synonyms & antonyms, one-word substitutions, idioms and phrases, and word usage in context are the main question types. Build a vocabulary bank from past B.Ed entrance papers — recurring words appear across years and are the most efficient preparation focus."
             },
             {
                 heading: "Comprehension",
@@ -216,7 +229,8 @@ const SUBJECTS_DATA = [
                     "https://images.openai.com/static-rsc-4/L8GI_m0A_a6wHupPPKbsNqSp9lRlBxEud4nsTJ2st6JaD-ughpaQ7IeyX1t_wC57Od3bkWPQAN2lnC6xXo_q7xCB2VsFUb_pk4YKE0gC8hCz1bxgyd31dWSscZ49qGBuA-NttNldExdZFEJapByDxaf4UC4zSRSR5HwnoPntUzvNVzSre0BaFimKc5cXTIZh?purpose=fullsize",
                     "https://images.openai.com/static-rsc-4/TN3Cms00TzVQ1o3B1ty1Y_6kael9-mZmPGC8GELXnUgtI5eYAB1LBEfM6lNP22OxnZ5Xa7EjIWmnWc-_9SsZKEd0y5kNUddyHNyFnaYJrVpI4KPUkEegtQpRxo4FUjFSx9bbdvkRfMXEEDcxcF-lIs-Fw4u33xSXyo0lrsY0ic0PDWHuoXXX6Rqt07DTPZsX?purpose=fullsize"
                 ],
-                topics: ["Reading Comprehension", "Error Detection", "Sentence Improvement", "Cloze Test"]
+                topics: ["Reading Comprehension", "Error Detection", "Sentence Improvement", "Cloze Test"],
+                explanation: "Reading comprehension tests your ability to understand, infer, and analyse written text. The key strategy is to read questions before the full passage to focus your reading. Error detection, sentence improvement, cloze tests (grammar + meaning must both fit), and para-jumbles are closely related skills that improve significantly with daily practice passages."
             }
         ],
         tests: [
@@ -248,7 +262,8 @@ async function seed() {
                         heading: sec.heading,
                         notesLink: sec.notesLink || null,
                         images: sec.images,
-                        topics: sec.topics
+                        topics: sec.topics,
+                        explanation: sec.explanation || ""
                     }))
                 },
                 tests: {

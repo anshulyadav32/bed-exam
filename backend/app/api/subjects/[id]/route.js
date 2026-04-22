@@ -12,7 +12,7 @@ export async function GET(_request, { params }) {
             include: {
                 sections: {
                     orderBy: { position: "asc" },
-                    select: { heading: true, notesLink: true, images: true, topics: true }
+                    select: { heading: true, notesLink: true, images: true, topics: true, explanation: true }
                 },
                 tests: {
                     orderBy: { id: "asc" },

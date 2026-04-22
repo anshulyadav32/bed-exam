@@ -1,6 +1,68 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSubjectDetail } from "../hooks/useSubjects";
 
+function ChapterAccordion({ sections }) {
+    const [openIndex, setOpenIndex] = useState(0);
+
+    const toggle = (i) => setOpenIndex((prev) => (prev === i ? -1 : i));
+
+    return (
+        <div className="chapter-accordion">
+            {sections.map((sec, i) => {
+                const isOpen = openIndex === i;
+                const topics = Array.isArray(sec.topics) ? sec.topics : [];
+                return (
+                    <article key={sec.heading} className={`chapter-card${isOpen ? " chapter-card--open" : ""}`}>
+                        <button
+                            className="chapter-header"
+                            onClick={() => toggle(i)}
+                            aria-expanded={isOpen}
+                        >
+                            <span className="chapter-num">{i + 1}</span>
+                            <span className="chapter-title">{sec.heading}</span>
+                            <span className="chapter-meta">{topics.length} topics</span>
+                            <span className="chapter-chevron">{isOpen ? "▲" : "▼"}</span>
+                        </button>
+
+                        {isOpen && (
+                            <div className="chapter-body">
+                                {sec.explanation && (
+                                    <p className="chapter-explanation">{sec.explanation}</p>
+                                )}
+
+                                <div className="chapter-topics">
+                                    {topics.map((t) => (
+                                        <span key={t} className="chapter-topic-chip">{t}</span>
+                                    ))}
+                                </div>
+
+                                {Array.isArray(sec.images) && sec.images.length > 0 && (
+                                    <div className="chapter-images-grid">
+                                        {sec.images.map((img, idx) => (
+                                            <img
+                                                key={`${sec.heading}-${idx}`}
+                                                src={img}
+                                                alt={`${sec.heading} visual ${idx + 1}`}
+                                                loading="lazy"
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+
+                                {sec.notesLink && (
+                                    <a className="chapter-notes-link" href={sec.notesLink} download>
+                                        📄 Download {sec.heading} Notes
+                                    </a>
+                                )}
+                            </div>
+                        )}
+                    </article>
+                );
+            })}
+        </div>
+    );
+}
+
 export default function SubjectDetailPage({ subjectId, navigate }) {
     const { subject, loading, error } = useSubjectDetail(subjectId);
     const bookmarkKey = useMemo(() => `bed-bookmarked-${subjectId || "subject"}`, [subjectId]);
@@ -56,29 +118,8 @@ export default function SubjectDetailPage({ subjectId, navigate }) {
             </section>
 
             <section>
-                <h3 className="section-title">📚 Detailed Syllabus</h3>
-                <div className="syllabus-sections">
-                    {subject.sections.map((sec, i) => (
-                        <article key={sec.heading} className="syllabus-section-card">
-                            <h4>{i + 1}. {sec.heading}</h4>
-                            {Array.isArray(sec.images) && sec.images.length > 0 ? (
-                                <div className="syllabus-images-grid">
-                                    {sec.images.map((img, idx) => (
-                                        <img key={`${sec.heading}-${idx}`} src={img} alt={`${sec.heading} reference ${idx + 1}`} loading="lazy" />
-                                    ))}
-                                </div>
-                            ) : null}
-                            <ul>
-                                {(Array.isArray(sec.topics) ? sec.topics : []).map((t) => <li key={t}>{t}</li>)}
-                            </ul>
-                            {sec.notesLink && (
-                                <a className="section-notes-link" href={sec.notesLink} download>
-                                    📄 Download {sec.heading} Notes
-                                </a>
-                            )}
-                        </article>
-                    ))}
-                </div>
+                <h3 className="section-title">📚 Chapters &amp; Syllabus</h3>
+                <ChapterAccordion sections={subject.sections} />
             </section>
 
             <section>
@@ -101,7 +142,7 @@ export default function SubjectDetailPage({ subjectId, navigate }) {
             </section>
 
             <section>
-                <h3 className="section-title">🔄 Same Layout for Other Subjects</h3>
+                <h3 className="section-title">🧪 Practice Tests</h3>
                 <div className="tests-grid">
                     {(subject.tests || []).map((test) => (
                         <article key={test.id} className="test-card">

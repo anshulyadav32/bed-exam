@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Header({ brand, lang, setLang, authUser, navigate }) {
+export default function Header({ brand, lang, setLang, authUser, authToken, navigate }) {
     return (
         <header>
             <div className="container nav-wrap">
@@ -14,7 +14,10 @@ export default function Header({ brand, lang, setLang, authUser, navigate }) {
                     {!authUser ? (
                         <button className="nav-btn" onClick={() => navigate("auth")}>Login</button>
                     ) : (
-                        <button className="nav-btn" onClick={() => navigate("mock-tests")}>Mock Test</button>
+                        <>
+                            <button className="nav-btn" onClick={() => navigate("dashboard")}>Dashboard</button>
+                            <button className="nav-btn" onClick={() => navigate("mock-tests")}>Mock Test</button>
+                        </>
                     )}
                     {authUser && <button className="nav-btn user-menu" onClick={() => navigate("auth")}>{authUser.name} ▼</button>}
                     <button className="lang-btn" onClick={() => setLang((v) => (v === "en" ? "hi" : "en"))}>

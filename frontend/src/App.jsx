@@ -22,6 +22,7 @@ import SubjectDetailPage from "./pages/SubjectDetailPage";
 import AboutPage from "./pages/AboutPage";
 import AuthPage from "./pages/AuthPage";
 import MockTestPage from "./pages/MockTestPage";
+import DashboardPage from "./pages/DashboardPage";
 import ContactPage from "./pages/ContactPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
@@ -76,6 +77,11 @@ function AppRoutes() {
       return;
     }
 
+    if (page === "dashboard") {
+      routerNavigate("/dashboard");
+      return;
+    }
+
     routerNavigate(routes[page] || "/");
   };
 
@@ -89,6 +95,7 @@ function AppRoutes() {
         lang={lang}
         setLang={setLang}
         authUser={auth.authUser}
+        authToken={auth.authToken}
         navigate={navigate}
       />
 
@@ -129,6 +136,16 @@ function AppRoutes() {
                 loadRecentScores={loadRecentScores}
                 navigate={navigate}
                 subjectId={mockSubjectId}
+              />
+            )}
+          />
+          <Route
+            path="/dashboard"
+            element={(
+              <DashboardPage
+                authUser={auth.authUser}
+                authToken={auth.authToken}
+                navigate={navigate}
               />
             )}
           />

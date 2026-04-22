@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../../backend/node_modules/@prisma/client"
 }
 
 datasource db {
@@ -64,14 +65,15 @@ model Subject {
 }
 
 model SubjectSection {
-  id        Int      @id @default(autoincrement())
-  subjectId String   @map("subject_id")
-  position  Int
-  heading   String
-  notesLink String?  @map("notes_link")
-  images    Json     @default("[]")
-  topics    Json     @default("[]")
-  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  id          Int      @id @default(autoincrement())
+  subjectId   String   @map("subject_id")
+  position    Int
+  heading     String
+  notesLink   String?  @map("notes_link")
+  images      Json     @default("[]")
+  topics      Json     @default("[]")
+  explanation String?  @default("")
+  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 
   @@index([subjectId])
   @@map("subject_sections")
