@@ -58,8 +58,9 @@ export default function MockTestPage({ candidateName, setCandidateName, recentSc
                 {statusMessage && <p className="status-msg">{statusMessage}</p>}
 
                 <div className="leaderboard">
-                    <h4>Recent Results (PostgreSQL)</h4>
-                    <ul>
+                   <h4>Recent Results (PostgreSQL)</h4>
+                   <ul>
+
                         {recentScores.length === 0 ? (
                             <li>No records yet.</li>
                         ) : (

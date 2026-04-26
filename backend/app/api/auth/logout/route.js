@@ -1,25 +1,25 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma.js";
-import { parseBearerToken, sha256 } from "../../../../lib/auth.js";
+import { sha256 } from "../../../../lib/auth.js";
+import { clearAuthCookies, extractRefreshTokenFromRequest, getUserFromRequest } from "../../../../lib/session.js";
+import { logger } from "../../../../lib/logger.js";
 
 export async function POST(request) {
-    // Accept refreshToken in body (preferred) or as Bearer token (backward compat)
-    let refreshToken = null;
-    try {
-        const body = await request.json();
-        refreshToken = String(body?.refreshToken || "").trim() || null;
-    } catch { /* ignore */ }
-
-    if (!refreshToken) {
-        refreshToken = parseBearerToken(request.headers.get("authorization") || "");
-    }
-
-    if (!refreshToken) return new NextResponse(null, { status: 204 });
+    const refreshToken = await extractRefreshTokenFromRequest(request);
 
     try {
-        await prisma.userSession.deleteMany({ where: { tokenHash: sha256(refreshToken) } });
-        return new NextResponse(null, { status: 204 });
+        if (refreshToken) {
+            await prisma.userSession.deleteMany({ where: { tokenHash: sha256(refreshToken) } });
+        }
+
+        const response = new NextResponse(null, { status: 204 });
+        clearAuthCookies(response);
+
+        const user = await getUserFromRequest(request);
+        if (user) logger.info("LOGOUT_SUCCESS", { userId: user.id, username: user.username });
+
+        return response;
     } catch (error) {
-        return NextResponse.json({ message: "Logout failed", error: error.message }, { status: 500 });
+        return NextResponse.json({ message: "Logout failed" }, { status: 500 });
     }
 }

@@ -1,19 +1,7 @@
 import { useState, useEffect } from "react";
+import { readJsonSafely } from "../utils/api.js";
 
 const AUTH_TOKEN_KEY = "bed_exam_auth_token";
-
-async function readJsonSafely(response) {
-    const contentType = response.headers.get("content-type") || "";
-    if (!contentType.includes("application/json")) {
-        return null;
-    }
-
-    try {
-        return await response.json();
-    } catch {
-        return null;
-    }
-}
 
 export function useAuth() {
     const [authMode, setAuthMode] = useState("login");
@@ -27,10 +15,36 @@ export function useAuth() {
     const [profileForm, setProfileForm] = useState({ name: "", username: "", email: "", currentPassword: "", newPassword: "" });
     const [authBusy, setAuthBusy] = useState(false);
 
-    const loadAuthUser = async (token) => {
-        if (!token) { setAuthUser(null); return; }
+    const tryRefresh = async () => {
         try {
-            const res = await fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } });
+            const res = await fetch("/api/auth/refresh", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({})
+            });
+            if (!res.ok) return null;
+            const data = await readJsonSafely(res);
+            return data?.accessToken || data?.token || null;
+        } catch {
+            return null;
+        }
+    };
+
+    const loadAuthUser = async (token) => {
+        try {
+            const headers = token ? { Authorization: `Bearer ${token}` } : {};
+            let res = await fetch("/api/auth/me", { headers, credentials: "include" });
+            if (res.status === 401) {
+                const refreshed = await tryRefresh();
+                if (refreshed) {
+                    setAuthToken(refreshed);
+                    res = await fetch("/api/auth/me", {
+                        headers: { Authorization: `Bearer ${refreshed}` },
+                        credentials: "include"
+                    });
+                }
+            }
             if (!res.ok) {
                 if (typeof window !== "undefined") localStorage.removeItem(AUTH_TOKEN_KEY);
                 setAuthToken("");
@@ -72,7 +86,7 @@ export function useAuth() {
         e.preventDefault();
         setAuthMessage("");
         setAuthBusy(true);
-        
+
         let payload;
         if (authMode === "signup") {
             payload = {
@@ -87,17 +101,18 @@ export function useAuth() {
                 password: authForm.password
             };
         }
-        
+
         const endpoint = authMode === "signup" ? "/api/auth/signup" : "/api/auth/login";
         try {
             const res = await fetch(endpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify(payload)
             });
             const data = await readJsonSafely(res);
             if (!res.ok) { setAuthMessage(data.message || "Authentication failed."); return; }
-            setAuthToken(data.token || "");
+            setAuthToken(data.accessToken || data.token || "");
             setAuthUser(data.user || null);
             setAuthForm({ name: "", username: "", email: authForm.email.trim(), password: "" });
             setAuthMessage(authMode === "signup" ? "Signup successful." : "Login successful.");
@@ -111,17 +126,16 @@ export function useAuth() {
     const onLogout = async () => {
         setAuthBusy(true);
         try {
-            if (authToken) {
-                const res = await fetch("/api/auth/logout", {
-                    method: "POST",
-                    headers: { Authorization: `Bearer ${authToken}` },
-                    keepalive: true
-                });
+            const res = await fetch("/api/auth/logout", {
+                method: "POST",
+                headers: { Authorization: authToken ? `Bearer ${authToken}` : "" },
+                credentials: "include",
+                keepalive: true
+            });
 
-                if (!res.ok) {
-                    setAuthMessage("Could not log out from the server. Try again.");
-                    return;
-                }
+            if (!res.ok) {
+                setAuthMessage("Could not log out from the server. Try again.");
+                return;
             }
             setAuthToken("");
             setAuthUser(null);
@@ -143,12 +157,14 @@ export function useAuth() {
         setAuthMessage("");
         setAuthBusy(true);
         try {
-            const res = await fetch("/api/auth/profile", {
+            let token = authToken;
+            let res = await fetch("/api/auth/profile", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${authToken}`
+                    Authorization: `Bearer ${token}`
                 },
+                credentials: "include",
                 body: JSON.stringify({
                     name: profileForm.name.trim(),
                     username: profileForm.username.trim(),
@@ -157,6 +173,29 @@ export function useAuth() {
                     newPassword: profileForm.newPassword
                 })
             });
+
+            if (res.status === 401) {
+                const refreshed = await tryRefresh();
+                if (refreshed) {
+                    setAuthToken(refreshed);
+                    token = refreshed;
+                    res = await fetch("/api/auth/profile", {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({
+                            name: profileForm.name.trim(),
+                            username: profileForm.username.trim(),
+                            email: profileForm.email.trim(),
+                            currentPassword: profileForm.currentPassword,
+                            newPassword: profileForm.newPassword
+                        })
+                    });
+                }
+            }
 
             const data = await readJsonSafely(res);
             if (!res.ok) {
@@ -188,6 +227,9 @@ export function useAuth() {
         authBusy,
         onAuthSubmit,
         onLogout,
-        onProfileSubmit
+        onProfileSubmit,
+        onAvatarChange: (newAvatar) => {
+            setAuthUser((prev) => prev ? { ...prev, avatarBase64: newAvatar } : prev);
+        }
     };
 }

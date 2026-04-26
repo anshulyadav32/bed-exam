@@ -1,0 +1,9 @@
+export { default as HomePage } from "./HomePage";
+export { default as SubjectsPage } from "./SubjectsPage";
+export { default as SubjectDetailPage } from "./SubjectDetailPage";
+export { default as AboutPage } from "./AboutPage";
+export { default as AuthPage } from "./AuthPage";
+export { default as MockTestPage } from "./MockTestPage";
+export { default as ContactPage } from "./ContactPage";
+export { default as PrivacyPage } from "./PrivacyPage";
+export { default as TermsPage } from "./TermsPage";

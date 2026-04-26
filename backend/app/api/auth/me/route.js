@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ensureStarted } from "../../../../lib/startup.js";
+import { prisma } from "../../../../lib/prisma.js";
 import { getUserFromRequest } from "../../../../lib/session.js";
 
 export async function GET(request) {
@@ -8,8 +9,17 @@ export async function GET(request) {
     try {
         const user = await getUserFromRequest(request);
         if (!user) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        return NextResponse.json({ user });
+
+        // Fetch full user row so we include avatarBase64
+        const fullUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            select: { id: true, name: true, email: true, username: true, avatarBase64: true }
+        });
+
+        const response = NextResponse.json({ user: fullUser || user });
+        response.headers.set("Cache-Control", "no-store");
+        return response;
     } catch (error) {
-        return NextResponse.json({ message: "Failed to fetch user", error: error.message }, { status: 500 });
+        return NextResponse.json({ message: "Failed to fetch user" }, { status: 500 });
     }
 }

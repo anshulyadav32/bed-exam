@@ -1,5 +1,6 @@
 import React from "react";
 import { useDashboard } from "../hooks/useDashboard";
+import { Skeleton, SkeletonCard } from "../components/common/Skeleton";
 
 function ProgressBar({ value, max }) {
     const pct = max > 0 ? Math.round((value / max) * 100) : 0;
@@ -72,44 +73,56 @@ export default function DashboardPage({ authUser, authToken, navigate }) {
 
             {/* Stats row */}
             <div className="db-stats-row">
-                <div className="db-stat-card">
-                    <span className="db-stat-value">{stats.total}</span>
-                    <span className="db-stat-label">Total Tests</span>
-                </div>
-                <div className="db-stat-card">
-                    <span className="db-stat-value">{stats.done}</span>
-                    <span className="db-stat-label">Completed</span>
-                </div>
-                <div className="db-stat-card">
-                    <span className="db-stat-value">{stats.total - stats.done}</span>
-                    <span className="db-stat-label">Remaining</span>
-                </div>
-                <div className="db-stat-card">
-                    <span className="db-stat-value">
-                        {stats.bestScore !== null ? `${stats.bestScore}%` : "—"}
-                    </span>
-                    <span className="db-stat-label">Best Score</span>
-                </div>
+                {loading ? (
+                    <>
+                        <Skeleton style={{ height: '80px', borderRadius: '18px' }} />
+                        <Skeleton style={{ height: '80px', borderRadius: '18px' }} />
+                        <Skeleton style={{ height: '80px', borderRadius: '18px' }} />
+                        <Skeleton style={{ height: '80px', borderRadius: '18px' }} />
+                    </>
+                ) : (
+                    <>
+                        <div className="db-stat-card">
+                            <span className="db-stat-value">{stats.total}</span>
+                            <span className="db-stat-label">Total Tests</span>
+                        </div>
+                        <div className="db-stat-card">
+                            <span className="db-stat-value">{stats.done}</span>
+                            <span className="db-stat-label">Completed</span>
+                        </div>
+                        <div className="db-stat-card">
+                            <span className="db-stat-value">{stats.total - stats.done}</span>
+                            <span className="db-stat-label">Remaining</span>
+                        </div>
+                        <div className="db-stat-card">
+                            <span className="db-stat-value">
+                                {stats.bestScore !== null ? `${stats.bestScore}%` : "—"}
+                            </span>
+                            <span className="db-stat-label">Best Score</span>
+                        </div>
+                    </>
+                )}
             </div>
 
             {/* Test listing */}
             <h3 className="db-section-heading">Mock Tests</h3>
 
-            {loading && <p className="muted-text">Loading tests…</p>}
             {error && <p className="muted-text">Could not load subjects: {error}</p>}
 
-            {!loading && (
-                <div className="db-test-grid">
-                    {testCards.map((card) => (
+            <div className="db-test-grid">
+                {loading ? (
+                    <SkeletonCard count={4} />
+                ) : (
+                    testCards.map((card) => (
                         <TestCard
                             key={card.key}
                             card={card}
                             onStart={handleStart}
                             onTryAgain={handleTryAgain}
                         />
-                    ))}
-                </div>
-            )}
+                    ))
+                )}
+            </div>
 
             {/* Recent scores */}
             {stats.recentScores.length > 0 && (
@@ -124,10 +137,10 @@ export default function DashboardPage({ authUser, authToken, navigate }) {
                         </div>
                         {stats.recentScores.map((s) => (
                             <div className="db-scores-row" key={s.id}>
-                                <span>{s.candidateName}</span>
-                                <span>{s.score}/{s.totalQuestions}</span>
-                                <span>{s.attempted}</span>
-                                <span>{Math.round((s.score / s.totalQuestions) * 100)}%</span>
+                                <span data-label="Name">{s.candidateName}</span>
+                                <span data-label="Score">{s.score}/{s.totalQuestions}</span>
+                                <span data-label="Attempted">{s.attempted}</span>
+                                <span data-label="%">{Math.round((s.score / s.totalQuestions) * 100)}%</span>
                             </div>
                         ))}
                     </div>

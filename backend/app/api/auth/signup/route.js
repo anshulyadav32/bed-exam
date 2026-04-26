@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { ensureStarted } from "../../../../lib/startup.js";
-import { prisma } from "../../../../lib/prisma.js";
-import { hashPassword, isValidEmail, validatePasswordStrength } from "../../../../lib/auth.js";
-import { createTokenPair } from "../../../../lib/session.js";
+import { isValidEmail, validatePasswordStrength } from "../../../../lib/auth.js";
+import { setAuthCookies } from "../../../../lib/session.js";
+import { parseUniqueConstraintError, noStore } from "../../../../lib/apiHelpers.js";
+import { logger } from "../../../../lib/logger.js";
+import { authService } from "../../../../services/index.js";
 
 export async function POST(request) {
     await ensureStarted();
@@ -18,6 +20,12 @@ export async function POST(request) {
     if (!name || !username || !isValidEmail(email)) {
         return NextResponse.json(
             { message: "Name, username, and a valid email are required" },
+            { status: 400 }
+        );
+    }
+    if (name.length > 80 || email.length > 254 || password.length > 128) {
+        return NextResponse.json(
+            { message: "Input exceeds allowed length" },
             { status: 400 }
         );
     }
@@ -40,26 +48,15 @@ export async function POST(request) {
     }
 
     try {
-        const passwordHash = await hashPassword(password);
-        const user = await prisma.user.create({
-            data: { name, email, username, passwordHash },
-            select: { id: true, name: true, email: true, username: true }
-        });
+        const { user, accessToken, refreshToken } = await authService.signup({ name, email, username, password });
 
-        const { accessToken, refreshToken } = await createTokenPair(user.id, {
-            name: user.name, email: user.email, username: user.username
-        });
-
-        return NextResponse.json({ accessToken, refreshToken, user }, { status: 201 });
+        const response = NextResponse.json({ accessToken, token: accessToken, user }, { status: 201 });
+        setAuthCookies(response, accessToken, refreshToken);
+        logger.info("SIGNUP_SUCCESS", { userId: user.id, username: user.username, email: user.email });
+        return noStore(response);
     } catch (error) {
-        if (String(error.message).includes("Unique constraint failed")) {
-            if (String(error.message).includes("email")) {
-                return NextResponse.json({ message: "Email already registered" }, { status: 409 });
-            } else if (String(error.message).includes("username")) {
-                return NextResponse.json({ message: "Username already taken" }, { status: 409 });
-            }
-            return NextResponse.json({ message: "Registration failed: duplicate field" }, { status: 409 });
-        }
-        return NextResponse.json({ message: "Signup failed", error: error.message }, { status: 500 });
+        const uniqueMsg = parseUniqueConstraintError(error);
+        if (uniqueMsg) return NextResponse.json({ message: uniqueMsg }, { status: 409 });
+        return NextResponse.json({ message: "Signup failed" }, { status: 500 });
     }
 }

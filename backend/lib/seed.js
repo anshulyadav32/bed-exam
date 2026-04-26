@@ -242,45 +242,71 @@ const SUBJECTS_DATA = [
 ];
 
 async function seed() {
-    const existing = await prisma.subject.count();
-    if (existing > 0) {
-        console.log(`[seed] Subjects already seeded (${existing} found). Skipping.`);
-        return;
-    }
-
-    console.log("[seed] Seeding subjects…");
-
-    for (const subjectData of SUBJECTS_DATA) {
-        const { sections, tests, ...subject } = subjectData;
-
-        await prisma.subject.create({
-            data: {
-                ...subject,
-                sections: {
-                    create: sections.map((sec, i) => ({
-                        position: i,
-                        heading: sec.heading,
-                        notesLink: sec.notesLink || null,
-                        images: sec.images,
-                        topics: sec.topics,
-                        explanation: sec.explanation || ""
-                    }))
-                },
-                tests: {
-                    create: tests.map((t) => ({
-                        id: t.id,
-                        name: t.name,
-                        duration: t.duration,
-                        questions: t.questions
-                    }))
+    // 1. Seed Subjects
+    const existingSubjects = await prisma.subject.count();
+    if (existingSubjects === 0) {
+        console.log("[seed] Seeding subjects…");
+        for (const subjectData of SUBJECTS_DATA) {
+            const { sections, tests, ...subject } = subjectData;
+            await prisma.subject.create({
+                data: {
+                    ...subject,
+                    sections: {
+                        create: sections.map((sec, i) => ({
+                            position: i,
+                            heading: sec.heading,
+                            notesLink: sec.notesLink || null,
+                            images: sec.images || [],
+                            topics: sec.topics || [],
+                            explanation: sec.explanation || ""
+                        }))
+                    },
+                    tests: {
+                        create: tests.map((t) => ({
+                            id: t.id,
+                            name: t.name,
+                            duration: t.duration,
+                            questions: t.questions
+                        }))
+                    }
                 }
-            }
-        });
-
-        console.log(`[seed]   ✓ ${subject.id}`);
+            });
+            console.log(`[seed]   ✓ Subject: ${subject.id}`);
+        }
+    } else {
+        console.log(`[seed] Subjects already seeded (${existingSubjects} found).`);
     }
 
-    console.log("[seed] Done.");
+    // 2. Seed Demo Users (from demodata.md)
+    const existingUsers = await prisma.user.count();
+    if (existingUsers === 0) {
+        console.log("[seed] Seeding demo users…");
+        const { hashPassword } = await import("./auth.js");
+
+        const USERS = [
+            { name: "Demo User", email: "demo@example.com", username: "demouser", password: "password123", role: "USER" },
+            { name: "Test Admin", email: "admin@test.com", username: "admin", password: "adminpass", role: "ADMIN" },
+            { name: "Student A", email: "student@test.com", username: "student_a", password: "secret123", role: "USER" }
+        ];
+
+        for (const u of USERS) {
+            const passwordHash = await hashPassword(u.password);
+            await prisma.user.create({
+                data: {
+                    name: u.name,
+                    email: u.email,
+                    username: u.username,
+                    passwordHash,
+                    role: u.role
+                }
+            });
+            console.log(`[seed]   ✓ User: ${u.username} (${u.role})`);
+        }
+    } else {
+        console.log(`[seed] Users already exist (${existingUsers} found). Skipping user seed.`);
+    }
+
+    console.log("[seed] Seeding complete.");
 }
 
 export { seed };

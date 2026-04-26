@@ -1,24 +1,27 @@
 import { NextResponse } from "next/server";
-import { getUserByRefreshToken, createAccessToken } from "../../../../lib/session.js";
+import {
+    extractRefreshTokenFromRequest,
+    rotateRefreshToken,
+    setAuthCookies
+} from "../../../../lib/session.js";
 
 export async function POST(request) {
-    let body;
-    try { body = await request.json(); } catch { body = {}; }
-
-    const rawToken = String(body?.refreshToken || "").trim();
+    const rawToken = await extractRefreshTokenFromRequest(request);
     if (!rawToken) {
         return NextResponse.json({ message: "refreshToken is required" }, { status: 400 });
     }
 
     try {
-        const result = await getUserByRefreshToken(rawToken);
+        const result = await rotateRefreshToken(rawToken);
         if (!result) {
             return NextResponse.json({ message: "Invalid or expired refresh token" }, { status: 401 });
         }
 
-        const accessToken = createAccessToken(result.user);
-        return NextResponse.json({ accessToken });
+        const response = NextResponse.json({ accessToken: result.accessToken, token: result.accessToken });
+        setAuthCookies(response, result.accessToken, result.refreshToken);
+        response.headers.set("Cache-Control", "no-store");
+        return response;
     } catch (error) {
-        return NextResponse.json({ message: "Token refresh failed", error: error.message }, { status: 500 });
+        return NextResponse.json({ message: "Token refresh failed" }, { status: 500 });
     }
 }

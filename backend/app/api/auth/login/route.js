@@ -1,30 +1,25 @@
 import { NextResponse } from "next/server";
 import { ensureStarted } from "../../../../lib/startup.js";
-import { prisma } from "../../../../lib/prisma.js";
-import { verifyPassword } from "../../../../lib/auth.js";
-import { createTokenPair } from "../../../../lib/session.js";
-import { checkRateLimit, recordFailedAttempt, clearAttempts } from "../../../../lib/rateLimit.js";
-
-function getClientIp(request) {
-    return (
-        request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-        request.headers.get("x-real-ip") ||
-        "unknown"
-    );
-}
+import { setAuthCookies } from "../../../../lib/session.js";
+import { checkRateLimit, recordFailedAttempt, clearAttempts, MAX_ATTEMPTS } from "../../../../lib/rateLimit.js";
+import { getClientIp, tooManyAttemptsResponse, emitSecurityEvent } from "../../../../lib/apiHelpers.js";
+import { sha256 } from "../../../../lib/auth.js";
+import { logger } from "../../../../lib/logger.js";
+import { authService } from "../../../../services/index.js";
 
 export async function POST(request) {
     await ensureStarted();
 
     // ── Rate limiting ─────────────────────────────────────────
     const ip = getClientIp(request);
-    const rateCheck = checkRateLimit(`login:${ip}`);
-    if (!rateCheck.allowed) {
-        const retryAfterSec = Math.ceil(rateCheck.retryAfterMs / 1000);
-        return NextResponse.json(
-            { message: `Too many login attempts. Try again in ${Math.ceil(retryAfterSec / 60)} minute(s).` },
-            { status: 429, headers: { "Retry-After": String(retryAfterSec) } }
-        );
+    const ipKey = `login:${ip}`;
+    const ipRateCheck = checkRateLimit(ipKey);
+    if (!ipRateCheck.allowed) {
+        emitSecurityEvent(request, "login_rate_limited_ip", {
+            attempts: ipRateCheck.count,
+            retryAfterMs: ipRateCheck.retryAfterMs
+        });
+        return tooManyAttemptsResponse(ipRateCheck);
     }
 
     let body;
@@ -36,36 +31,56 @@ export async function POST(request) {
     if (!emailOrUsername || !password) {
         return NextResponse.json({ message: "Email or username and password are required" }, { status: 400 });
     }
+    if (emailOrUsername.length > 254 || password.length > 128) {
+        return NextResponse.json({ message: "Invalid credential format" }, { status: 400 });
+    }
+
+    const credentialFingerprint = sha256(emailOrUsername).slice(0, 16);
+    const identifierKey = `login-id:${credentialFingerprint}`;
+    const idRateCheck = checkRateLimit(identifierKey);
+    if (!idRateCheck.allowed) {
+        emitSecurityEvent(request, "login_rate_limited_identifier", {
+            credentialHashPrefix: credentialFingerprint,
+            attempts: idRateCheck.count,
+            retryAfterMs: idRateCheck.retryAfterMs
+        });
+        return tooManyAttemptsResponse(idRateCheck);
+    }
 
     try {
-        const user = await prisma.user.findFirst({
-            where: {
-                OR: [
-                    { email: emailOrUsername },
-                    { username: emailOrUsername }
-                ]
-            },
-            select: { id: true, name: true, email: true, username: true, passwordHash: true }
-        });
+        const result = await authService.login(emailOrUsername, password);
 
-        if (!user || !(await verifyPassword(password, user.passwordHash))) {
-            recordFailedAttempt(`login:${ip}`);
-            // Constant-time response to prevent user enumeration
+        if (!result) {
+            const ipAttempt = recordFailedAttempt(ipKey);
+            const idAttempt = recordFailedAttempt(identifierKey);
+            if (ipAttempt.locked || idAttempt.locked) {
+                emitSecurityEvent(request, "login_lockout_threshold_reached", {
+                    credentialHashPrefix: credentialFingerprint,
+                    ipAttempts: ipAttempt.count,
+                    identifierAttempts: idAttempt.count,
+                    threshold: MAX_ATTEMPTS,
+                    retryAfterMs: Math.max(ipAttempt.retryAfterMs, idAttempt.retryAfterMs)
+                });
+            }
+            logger.warn("LOGIN_FAILED", { ip, identifierHash: credentialFingerprint, emailOrUsername });
             return NextResponse.json({ message: "Invalid email/username or password" }, { status: 401 });
         }
 
-        clearAttempts(`login:${ip}`);
+        clearAttempts(ipKey);
+        clearAttempts(identifierKey);
 
-        const { accessToken, refreshToken } = await createTokenPair(user.id, {
-            name: user.name, email: user.email, username: user.username
-        });
+        const { user, accessToken, refreshToken } = result;
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             accessToken,
-            refreshToken,
-            user: { id: user.id, name: user.name, email: user.email, username: user.username }
+            token: accessToken,
+            user
         });
+        setAuthCookies(response, accessToken, refreshToken);
+        logger.info("LOGIN_SUCCESS", { userId: user.id, username: user.username, ip });
+        response.headers.set("Cache-Control", "no-store");
+        return response;
     } catch (error) {
-        return NextResponse.json({ message: "Login failed", error: error.message }, { status: 500 });
+        return NextResponse.json({ message: "Login failed" }, { status: 500 });
     }
 }

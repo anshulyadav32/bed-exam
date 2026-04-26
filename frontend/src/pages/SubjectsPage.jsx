@@ -1,10 +1,10 @@
 import React from "react";
 import { useSubjects } from "../hooks/useSubjects";
+import { SkeletonSubject } from "../components/common/Skeleton";
 
 export default function SubjectsPage({ navigate }) {
     const { subjects, loading, error } = useSubjects();
 
-    if (loading) return <section><p className="intro-text">Loading subjects…</p></section>;
     if (error) return <section><p className="intro-text">Failed to load subjects: {error}</p></section>;
 
     return (
@@ -12,7 +12,15 @@ export default function SubjectsPage({ navigate }) {
             <h2 className="section-title">Select Subject to Practice</h2>
             <p className="intro-text">Choose from 4 main subjects with curated tests and questions.</p>
             <div className="subjects-grid-large">
-                {subjects.map((subject) => (
+                {loading ? (
+                    <>
+                        <SkeletonSubject />
+                        <SkeletonSubject />
+                        <SkeletonSubject />
+                        <SkeletonSubject />
+                    </>
+                ) : (
+                    subjects.map((subject) => (
                     <article
                         key={subject.id}
                         className="subject-card-large"
@@ -24,7 +32,8 @@ export default function SubjectsPage({ navigate }) {
                             View Tests →
                         </button>
                     </article>
-                ))}
+                    ))
+                )}
             </div>
         </section>
     );

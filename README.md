@@ -7,18 +7,10 @@ This app uses a Vite frontend and a Next.js backend (API routes) with PostgreSQL
 - Backend source: `backend/` (Next.js API routes under `backend/app/api`)
 - Frontend build output: `dist/`
 
-## 1) Install PostgreSQL + psql
-- Install PostgreSQL from the official installer for Windows.
-- Ensure **Command Line Tools** are selected during setup.
-- Add PostgreSQL `bin` folder to your PATH if `psql` is not found.
+## 1) Database setup
+PostgreSQL is used for storage, so no external database installation is required. The database file will be created automatically in `db/prisma/`.
 
-## 2) Create database with psql
-
-```powershell
-psql -U postgres -c "CREATE DATABASE bed_exam;"
-```
-
-## 3) Configure environment
+## 2) Configure environment
 
 Keep runtime env files only in `env/`:
 - `env/.env.development` for local development
@@ -29,12 +21,7 @@ Example values:
 
 ```env
 API_PORT=4000
-PGHOST=localhost
-PGPORT=5432
-PGUSER=postgres
-PGPASSWORD=postgres
-PGDATABASE=bed_exam
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/bed_exam
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/bed_exam?schema=public"
 ```
 
 Backend scripts are configured to load env values from `env/` only.
@@ -86,7 +73,7 @@ docker compose up --build
 This starts:
 - Web app on http://localhost:5173
 - Next.js app (UI + API) on http://localhost:3000
-- PostgreSQL on port 5433
+- PostgreSQL database stored in a Docker volume
 
 Prisma schema sync/seed runs from the Next.js app startup flow.
 

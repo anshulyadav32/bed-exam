@@ -8,6 +8,7 @@ export default function Page() {
             {({ auth, navigate }) => (
                 <AuthPage
                     authUser={auth.authUser}
+                    authToken={auth.authToken}
                     authMode={auth.authMode}
                     setAuthMode={auth.setAuthMode}
                     authForm={auth.authForm}
@@ -20,6 +21,7 @@ export default function Page() {
                     onAuthSubmit={auth.onAuthSubmit}
                     onLogout={auth.onLogout}
                     onProfileSubmit={auth.onProfileSubmit}
+                    onAvatarChange={auth.onAvatarChange}
                     navigate={navigate}
                 />
             )}

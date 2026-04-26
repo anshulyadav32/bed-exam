@@ -17,6 +17,9 @@ export default function Header({ brand, lang, setLang, authUser, authToken, navi
                         <>
                             <button className="nav-btn" onClick={() => navigate("dashboard")}>Dashboard</button>
                             <button className="nav-btn" onClick={() => navigate("mock-tests")}>Mock Test</button>
+                            {authUser.role === "ADMIN" && (
+                                <button className="nav-btn" onClick={() => navigate("admin")} style={{ color: '#d35400', fontWeight: 'bold' }}>Admin</button>
+                            )}
                         </>
                     )}
                     {authUser && <button className="nav-btn user-menu" onClick={() => navigate("auth")}>{authUser.name} ▼</button>}

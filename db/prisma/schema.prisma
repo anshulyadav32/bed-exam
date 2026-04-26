@@ -12,81 +12,98 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  name      String
-  email     String    @unique
-  username  String    @unique
-  passwordHash String  @map("password_hash")
-  createdAt DateTime  @default(now()) @map("created_at")
-  sessions  UserSession[]
-  
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  role         String        @default("USER")
+  username     String        @unique
+  passwordHash String?       @map("password_hash")
+  googleId     String?       @unique @map("google_id")
+  githubId     String?       @unique @map("github_id")
+  avatarBase64 String?       @map("avatar_base64")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  sessions     UserSession[]
+
   @@map("users")
 }
 
 model UserSession {
-  id        Int       @id @default(autoincrement())
-  userId    Int       @map("user_id")
-  tokenHash String    @map("token_hash")
-  expiresAt DateTime  @map("expires_at")
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  tokenHash String   @map("token_hash")
+  expiresAt DateTime @map("expires_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([userId])
   @@index([tokenHash])
   @@map("user_sessions")
 }
 
 model MockScore {
-  id                Int       @id @default(autoincrement())
-  candidateName     String    @map("candidate_name")
-  score             Int
-  attempted         Int
-  totalQuestions    Int       @map("total_questions")
-  createdAt         DateTime  @default(now()) @map("created_at")
-  
+  id             Int      @id @default(autoincrement())
+  candidateName  String   @map("candidate_name")
+  score          Int
+  attempted      Int
+  totalQuestions Int      @map("total_questions")
+  createdAt      DateTime @default(now()) @map("created_at")
+
   @@map("mock_scores")
 }
 
 model Subject {
-  id                   String           @id
-  name                 String
-  description          String
-  color                String
-  title                String
-  subtitle             String
-  overview             String
-  notesLink            String           @map("notes_link")
-  examTotalQuestions   String           @map("exam_total_questions")
-  examType             String           @map("exam_type")
-  examDifficulty       String           @map("exam_difficulty")
-  sections             SubjectSection[]
-  tests                SubjectTest[]
+  id                 String           @id
+  name               String
+  description        String
+  color              String
+  title              String
+  subtitle           String
+  overview           String
+  notesLink          String           @map("notes_link")
+  examTotalQuestions String           @map("exam_total_questions")
+  examType           String           @map("exam_type")
+  examDifficulty     String           @map("exam_difficulty")
+  sections           SubjectSection[]
+  tests              SubjectTest[]
 
   @@map("subjects")
 }
 
 model SubjectSection {
-  id          Int      @id @default(autoincrement())
-  subjectId   String   @map("subject_id")
+  id          Int     @id @default(autoincrement())
+  subjectId   String  @map("subject_id")
   position    Int
   heading     String
-  notesLink   String?  @map("notes_link")
-  images      Json     @default("[]")
-  topics      Json     @default("[]")
-  explanation String?  @default("")
-  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  notesLink   String? @map("notes_link")
+  images      Json    @default("[]")
+  topics      Json    @default("[]")
+  explanation String? @default("")
+  subject     Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 
   @@index([subjectId])
   @@map("subject_sections")
 }
 
 model SubjectTest {
-  id        String   @id
-  subjectId String   @map("subject_id")
+  id        String  @id
+  subjectId String  @map("subject_id")
   name      String
   duration  String
   questions Int
-  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 
   @@index([subjectId])
   @@map("subject_tests")
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?     @map("user_id")
+  action    String
+  level     String   @default("INFO")
+  resource  String?
+  metadata  Json?
+  ip        String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("audit_logs")
 }
