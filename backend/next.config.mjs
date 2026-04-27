@@ -6,6 +6,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: "standalone",
+    webpack: (config) => {
+        config.resolve.alias["@shared"] = path.resolve(__dirname, "../shared");
+        return config;
+    },
     outputFileTracingRoot: path.join(__dirname, ".."),
     serverExternalPackages: ["@prisma/client", "prisma"],
     images: {

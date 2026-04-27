@@ -8,13 +8,18 @@ services:
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/bed_exam?schema=public"
       NODE_ENV: production
       JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "4000:3000"
 
   db:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     container_name: bed_exam_db
     environment:
       POSTGRES_USER: postgres
@@ -24,6 +29,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bed_exam"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   frontend:
     build:

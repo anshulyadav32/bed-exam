@@ -11,6 +11,11 @@ export default defineConfig(({ mode }) => {
 
   return {
     root: __dirname,
+    resolve: {
+      alias: {
+        "@shared": path.resolve(__dirname, "../shared")
+      }
+    },
     build: {
       outDir: path.resolve(__dirname, "../dist"),
       emptyOutDir: true

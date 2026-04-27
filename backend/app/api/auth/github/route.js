@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { ensureStarted } from "../../../../lib/startup.js";
-import { prisma } from "../../../../lib/prisma.js";
-import { createTokenPair, setAuthCookies } from "../../../../lib/session.js";
+import { setAuthCookies } from "../../../../lib/session.js";
 import { noStore, jsonError } from "../../../../lib/apiHelpers.js";
 import { logger } from "../../../../lib/logger.js";
+import { authService } from "../../../../services/index.js";
 
 export async function POST(request) {
     await ensureStarted();
@@ -53,52 +53,19 @@ export async function POST(request) {
         const email = ghUser.email; // Note: may be null if private
         const name = ghUser.name || ghUser.login;
 
-        // 3. Find or create user
-        let user = await prisma.user.findUnique({
-            where: { githubId }
+        const result = await authService.socialLogin({
+            provider: "github",
+            providerId: githubId,
+            email,
+            name
         });
 
-        if (!user && email) {
-            user = await prisma.user.findUnique({
-                where: { email }
-            });
-
-            if (user) {
-                // Link account
-                user = await prisma.user.update({
-                    where: { id: user.id },
-                    data: { githubId }
-                });
-            }
-        }
-
-        if (!user) {
-            // Generate unique username
-            let baseUsername = (ghUser.login || "gh_user").toLowerCase().replace(/[^a-z0-9_]/g, "_");
-            let username = baseUsername;
-            let counter = 1;
-
-            while (await prisma.user.findUnique({ where: { username } })) {
-                username = `${baseUsername}_${counter++}`;
-            }
-
-            user = await prisma.user.create({
-                data: {
-                    name,
-                    email: email || `${githubId}@github.placeholder.com`, // GitHub doesn't always provide email
-                    username,
-                    githubId
-                }
-            });
-        }
-
-        const { accessToken, refreshToken } = await createTokenPair(user.id, {
-            name: user.name, email: user.email, username: user.username
-        });
+        const { user, accessToken, refreshToken } = result;
 
         const response = NextResponse.json({
             accessToken,
-            user: { id: user.id, name: user.name, email: user.email, username: user.username }
+            token: accessToken,
+            user
         });
         
         setAuthCookies(response, accessToken, refreshToken);

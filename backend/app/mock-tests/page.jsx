@@ -1,11 +1,10 @@
 "use client";
-import { Suspense } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useScores } from "../_spa/hooks/useScores";
+import { useScores } from "@shared/hooks/useScores.js";
+import { useAuth } from "@shared/hooks/useAuth.js";
 import ClientShell from "../_shell";
 import MockTestPage from "../_spa/pages/MockTestPage";
-import { useState, useEffect } from "react";
-import { useAuth } from "../_spa/hooks/useAuth";
 
 function MockTestInner({ navigate }) {
     const { recentScores, statusMessage, loadRecentScores } = useScores();

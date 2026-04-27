@@ -10,11 +10,13 @@ export async function GET(request) {
         const user = await getUserFromRequest(request);
         if (!user) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-        // Fetch full user row so we include avatarBase64
+        // Fetch full user row so we include avatarBase64 and role
         const fullUser = await prisma.user.findUnique({
             where: { id: user.id },
-            select: { id: true, name: true, email: true, username: true, avatarBase64: true }
+            select: { id: true, name: true, email: true, username: true, avatarBase64: true, role: true }
         });
+
+        console.log("[me] Fetched user:", fullUser?.username, "Role:", fullUser?.role);
 
         const response = NextResponse.json({ user: fullUser || user });
         response.headers.set("Cache-Control", "no-store");

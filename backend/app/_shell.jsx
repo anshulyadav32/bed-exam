@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { text } from "./_spa/data/text";
-import { useAuth } from "./_spa/hooks/useAuth";
-import { useScores } from "./_spa/hooks/useScores";
-import Header from "./_spa/components/Header";
-import Footer from "./_spa/components/Footer";
+import { text } from "@shared/data/text.js";
+import { useAuth } from "@shared/hooks/useAuth.js";
+import { useScores } from "@shared/hooks/useScores.js";
+import Header from "@shared/components/Header.jsx";
+import Footer from "@shared/components/Footer.jsx";
 
 export default function ClientShell({ children }) {
     const [lang, setLang] = useState("en");
@@ -19,7 +19,20 @@ export default function ClientShell({ children }) {
     const navigate = (page, subjectId = null) => {
         if (page === "subject-detail") { router.push(subjectId ? `/subjects/${subjectId}` : "/subjects"); return; }
         if (page === "mock-tests") { router.push(subjectId ? `/mock-tests?subject=${subjectId}` : "/mock-tests"); return; }
-        const routes = { home: "/", subjects: "/subjects", about: "/about", auth: "/auth", contact: "/contact", privacy: "/privacy", terms: "/terms" };
+        const routes = {
+            home: "/",
+            subjects: "/subjects",
+            about: "/about",
+            auth: "/auth",
+            contact: "/contact",
+            privacy: "/privacy",
+            terms: "/terms",
+            dashboard: "/dashboard",
+            admin: "/admin",
+            "admin-users": "/admin/users",
+            "admin-subjects": "/admin/subjects",
+            "admin-scores": "/admin/scores"
+        };
         router.push(routes[page] || "/");
     };
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { HashRouter } from "react-router-dom";
 
-import { text } from "./data/text";
-import { useAuth } from "./hooks/useAuth";
-import { useScores } from "./hooks/useScores";
+import { text } from "@shared/data/text.js";
+import { useAuth } from "@shared/hooks/useAuth.js";
+import { useScores } from "@shared/hooks/useScores.js";
 import { useAppNavigate } from "./hooks/useAppNavigate";
 
 import MainLayout from "./components/layout/MainLayout";

@@ -277,19 +277,20 @@ async function seed() {
         console.log(`[seed] Subjects already seeded (${existingSubjects} found).`);
     }
 
-    // 2. Seed Demo Users (from demodata.md)
-    const existingUsers = await prisma.user.count();
-    if (existingUsers === 0) {
-        console.log("[seed] Seeding demo users…");
-        const { hashPassword } = await import("./auth.js");
+    // 2. Seed Demo Users
+    const { hashPassword } = await import("./auth.js");
 
-        const USERS = [
-            { name: "Demo User", email: "demo@example.com", username: "demouser", password: "password123", role: "USER" },
-            { name: "Test Admin", email: "admin@test.com", username: "admin", password: "adminpass", role: "ADMIN" },
-            { name: "Student A", email: "student@test.com", username: "student_a", password: "secret123", role: "USER" }
-        ];
+    const USERS = [
+        { name: "Demo User", email: "demo@example.com", username: "demouser", password: "password123", role: "USER" },
+        { name: "Test Admin", email: "admin@test.com", username: "admin", password: "adminpass", role: "ADMIN" },
+        { name: "Student A", email: "student@test.com", username: "student_a", password: "secret123", role: "USER" },
+        { name: "Demo Admin", email: "demo_admin@test.com", username: "demo_admin", password: "admin123", role: "ADMIN" }
+    ];
 
-        for (const u of USERS) {
+    console.log("[seed] Checking for demo users…");
+    for (const u of USERS) {
+        const exists = await prisma.user.findUnique({ where: { username: u.username } });
+        if (!exists) {
             const passwordHash = await hashPassword(u.password);
             await prisma.user.create({
                 data: {
@@ -300,10 +301,8 @@ async function seed() {
                     role: u.role
                 }
             });
-            console.log(`[seed]   ✓ User: ${u.username} (${u.role})`);
+            console.log(`[seed]   ✓ Created User: ${u.username} (${u.role})`);
         }
-    } else {
-        console.log(`[seed] Users already exist (${existingUsers} found). Skipping user seed.`);
     }
 
     console.log("[seed] Seeding complete.");

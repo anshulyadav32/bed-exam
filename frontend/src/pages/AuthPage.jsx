@@ -1,6 +1,6 @@
 import React from "react";
-import ProfileForm from "../components/auth/ProfileForm";
-import LoginSignupForm from "../components/auth/LoginSignupForm";
+import ProfileForm from "@shared/components/auth/ProfileForm.jsx";
+import LoginSignupForm from "@shared/components/auth/LoginSignupForm.jsx";
 
 export default function AuthPage({
     authUser,

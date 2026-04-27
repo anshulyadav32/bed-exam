@@ -1,8 +1,9 @@
 import React from "react";
 import { useSubjects } from "../hooks/useSubjects";
-import { SkeletonSubject } from "../components/common/Skeleton";
+import { Skeleton, SkeletonCard } from "@shared/components/Skeleton.jsx";
 
 export default function SubjectsPage({ navigate }) {
+
     const { subjects, loading, error } = useSubjects();
 
     if (error) return <section><p className="intro-text">Failed to load subjects: {error}</p></section>;

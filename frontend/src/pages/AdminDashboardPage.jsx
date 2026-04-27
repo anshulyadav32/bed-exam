@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { readJsonSafely } from "../utils/api";
-import { Skeleton, SkeletonCard } from "../components/common/Skeleton";
+import { readJsonSafely } from "@shared/utils/api.js";
+import { Skeleton, SkeletonCard } from "@shared/components/Skeleton.jsx";
+import SecurityEventsPanel from "@shared/components/SecurityEventsPanel.jsx";
 
 export default function AdminDashboardPage({ authToken, navigate }) {
     const [stats, setStats] = useState(null);
@@ -133,9 +134,12 @@ export default function AdminDashboardPage({ authToken, navigate }) {
                 )}
             </div>
 
+            <SecurityEventsPanel authToken={authToken} />
+
             <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
-                <button className="btn-alt" onClick={() => navigate("subjects")}>Manage Subjects</button>
-                <button className="btn-alt" onClick={() => navigate("mock-tests")}>View All Scores</button>
+                <button className="btn" onClick={() => navigate("admin-users")}>User Directory</button>
+                <button className="btn-alt" onClick={() => navigate("admin-subjects")}>Manage Subjects</button>
+                <button className="btn-alt" onClick={() => navigate("admin-scores")}>Full Scoreboard</button>
             </div>
         </section>
     );

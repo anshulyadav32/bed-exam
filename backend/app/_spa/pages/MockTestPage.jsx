@@ -1,6 +1,7 @@
 import React from "react";
-import { mockQuestions } from "../data/questions";
-import { useMockTest } from "../hooks/useMockTest";
+import { mockQuestions } from "@shared/data/questions.js";
+import { useMockTest } from "@shared/hooks/useMockTest.js";
+import ScoreList from "@shared/components/ScoreList.jsx";
 
 export default function MockTestPage({ candidateName, setCandidateName, recentScores, statusMessage, loadRecentScores, navigate, subjectId }) {
     const { answers, result, onAnswer, onSubmit, onReset } = useMockTest({
@@ -57,22 +58,7 @@ export default function MockTestPage({ candidateName, setCandidateName, recentSc
 
                 {statusMessage && <p className="status-msg">{statusMessage}</p>}
 
-                <div className="leaderboard">
-                   <h4>Recent Results (PostgreSQL)</h4>
-                   <ul>
-
-                        {recentScores.length === 0 ? (
-                            <li>No records yet.</li>
-                        ) : (
-                            recentScores.map((item) => (
-                                <li key={item.id}>
-                                    <span>{item.candidateName}</span>
-                                    <strong>{item.score}/{item.totalQuestions}</strong>
-                                </li>
-                            ))
-                        )}
-                    </ul>
-                </div>
+                <ScoreList recentScores={recentScores} />
             </article>
         </section>
     );

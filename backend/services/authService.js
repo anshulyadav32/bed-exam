@@ -57,6 +57,64 @@ export const authService = {
     },
 
     /**
+     * Handle social login (Google, GitHub, etc.)
+     */
+    async socialLogin({ provider, providerId, email, name }) {
+        // 1. Try to find by provider ID
+        const providerField = provider === "google" ? "googleId" : "githubId";
+        let user = await prisma.user.findUnique({
+            where: { [providerField]: providerId }
+        });
+
+        // 2. If not found, try to find by email
+        if (!user && email) {
+            user = await prisma.user.findUnique({
+                where: { email }
+            });
+
+            if (user) {
+                // Link account
+                user = await prisma.user.update({
+                    where: { id: user.id },
+                    data: { [providerField]: providerId },
+                    select: { id: true, name: true, email: true, username: true, role: true }
+                });
+            }
+        }
+
+        // 3. Still not found? Create a new user
+        if (!user) {
+            let baseUsername = (email ? email.split("@")[0] : (name || provider)).replace(/[^a-z0-9_]/g, "_").toLowerCase();
+            let username = baseUsername;
+            let counter = 1;
+
+            while (await prisma.user.findUnique({ where: { username } })) {
+                username = `${baseUsername}_${counter++}`;
+            }
+
+            user = await prisma.user.create({
+                data: {
+                    name: name || email || username,
+                    email: email || `${providerId}@${provider}.placeholder.com`,
+                    username,
+                    [providerField]: providerId
+                },
+                select: { id: true, name: true, email: true, username: true, role: true }
+            });
+        }
+
+        const { accessToken, refreshToken } = await createTokenPair(user.id, {
+            name: user.name, email: user.email, username: user.username, role: user.role
+        });
+
+        return {
+            user: { id: user.id, name: user.name, email: user.email, username: user.username, role: user.role },
+            accessToken,
+            refreshToken
+        };
+    },
+
+    /**
      * Update user profile.
      */
     async updateProfile(userId, { name, email, username, currentPassword, newPassword }) {

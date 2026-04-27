@@ -1,5 +1,5 @@
 import React from "react";
-import { useSubjects } from "../hooks/useSubjects";
+import { useSubjects } from "../hooks/useSubjects.js";
 
 export default function SubjectsPage({ navigate }) {
     const { subjects, loading, error } = useSubjects();

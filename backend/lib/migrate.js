@@ -25,7 +25,7 @@ export async function runMigrations() {
             cmd = `"${backendPrisma}"`;
         }
 
-        execSync(`${cmd} db push --schema "${schemaPath}"`, { stdio: "inherit" });
+        execSync(`${cmd} db push --schema "${schemaPath}" --accept-data-loss --skip-generate`, { stdio: "inherit" });
         console.log("[db] Schema synced.");
     } catch (err) {
         console.error("[db] Schema sync failed:", err.message);

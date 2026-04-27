@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { readJsonSafely } from "../../frontend/src/utils/api";
-import * as authApi from "../../frontend/src/utils/authApi";
+import { readJsonSafely } from "@shared/utils/api.js";
+import * as authApi from "@shared/utils/authApi.js";
 
 describe("Frontend Utilities", () => {
     describe("readJsonSafely", () => {

@@ -3,7 +3,7 @@ FROM node:22-alpine AS deps
 RUN apk add --no-cache openssl
 WORKDIR /app
 COPY backend/package*.json ./
-RUN npm ci
+RUN npm install
 
 # ── Stage 2: builder ─────────────────────────────────────────────────────────────
 FROM node:22-alpine AS builder
@@ -27,6 +27,11 @@ ENV HOSTNAME="0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser  --system --uid 1001 backend
 
+# Copy prisma CLI and schema for runtime migrations if needed
+COPY --from=builder /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
+COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/db/prisma/schema.prisma ./db/prisma/schema.prisma
+
 # Next.js standalone structure
 COPY --from=builder /app/backend/public ./backend/public
 COPY --from=builder --chown=backend:nodejs /app/backend/.next/standalone ./
@@ -34,7 +39,4 @@ COPY --from=builder --chown=backend:nodejs /app/backend/.next/static ./backend/.
 
 USER backend
 EXPOSE 3000
-# The standalone build entry point is server.js in the standalone root
-# But since we built from /app and backend/ is a subfolder, 
-# it might be in backend/server.js or root server.js
 CMD ["node", "backend/server.js"]

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useSubjectDetail } from "../hooks/useSubjects";
+import { useSubjectDetail } from "../hooks/useSubjects.js";
 
 function ChapterAccordion({ sections }) {
     const [openIndex, setOpenIndex] = useState(0);

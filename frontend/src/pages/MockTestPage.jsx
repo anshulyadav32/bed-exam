@@ -1,7 +1,7 @@
 import React from "react";
-import { mockQuestions } from "../data/questions";
-import { useMockTest } from "../hooks/useMockTest";
-import ScoreList from "../components/common/ScoreList";
+import { mockQuestions } from "@shared/data/questions.js";
+import { useMockTest } from "@shared/hooks/useMockTest.js";
+import ScoreList from "@shared/components/ScoreList.jsx";
 
 export default function MockTestPage({ candidateName, setCandidateName, recentScores, statusMessage, loadRecentScores, navigate, subjectId }) {
     const { answers, result, onAnswer, onSubmit, onReset } = useMockTest({

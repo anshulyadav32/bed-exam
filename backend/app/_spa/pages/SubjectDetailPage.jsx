@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useSubjectDetail } from "../hooks/useSubjects";
+import { useSubjectDetail } from "../hooks/useSubjects.js";
 
 export default function SubjectDetailPage({ subjectId, navigate }) {
     const { subject, loading, error } = useSubjectDetail(subjectId);
